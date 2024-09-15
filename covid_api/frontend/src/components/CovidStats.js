@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import Navbar from './Navbar';
 import Footer from './Footer';
+import '../App.css';
 import './CovidStats.css'; // Importar el archivo CSS
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -458,9 +458,7 @@ const CovidStats = () => {
             'Kosovo': [42.6026, 20.9030],
             'Kuwait': [29.3117, 47.4818],
             'Kyrgyzstan': [41.2044, 74.7661],
-            'Laos': [19.8563, 102.4955
-        
-        ],
+            'Laos': [19.8563, 102.4955],
             'Latvia': [56.8796, 24.6032],
             'Lebanon': [33.8547, 35.8623],
             'Lesotho': [-29.6094, 28.2336],
@@ -619,77 +617,79 @@ const CovidStats = () => {
 
     return (
         <div>
-            <Navbar />
-            <div className="covid-stats-container">
-                <h2>Find your country</h2>
-                <div className="search-container">
+          <div className="covid-stats-container">
+            <h2>Find your country</h2>
+            <p className="info-text">Stay informed with the latest COVID-19 data</p>
+            <div className="search-container">
+                <div className="search-input-wrapper">
                     <select
-                        className="search-input"
-                        value={location}
-                        onChange={e => setLocation(e.target.value)}
+                    className="search-input"
+                    value={location}
+                    onChange={e => setLocation(e.target.value)}
                     >
-                        <option value="">Select a country</option>
-                        {countries.map((country, index) => (
-                            <option key={index} value={country}>
-                                {country}
-                            </option>
-                        ))}
+                    <option value="">Select a country</option>
+                    {countries.map((country, index) => (
+                        <option key={index} value={country}>
+                        {country}
+                        </option>
+                    ))}
                     </select>
                     <button className="search-button" onClick={handleSearch}>Search</button>
                 </div>
-                {error && <p className="error-message">{error}</p>}
-                {data && (
-                    <div>
-                        <table className="stats-table">
-                            <thead>
-                                <tr>
-                                    <th>Country</th>
-                                    <th>Total Cases</th>
-                                    <th>New Cases (Last 7 Days)</th>
-                                    <th>Total Deaths</th>
-                                    <th>Risk Level</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{data.country}</td>
-                                    <td>{data.cumulative_cases}</td>
-                                    <td>{data.new_cases}</td>
-                                    <td>{data.cumulative_deaths}</td>
-                                    <td>{data.risk_level}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        {chartData ? (
-                            <Line data={chartData} options={chartOptions} />
-                        ) : (
-                            <p>Loading chart data...</p>
-                        )}
-                    </div>
+                </div>
+                            {error && <p className="error-message">{error}</p>}
+            {data && (
+              <div>
+                <table className="stats-table">
+                  <thead>
+                    <tr>
+                      <th>Country</th>
+                      <th>Total Cases</th>
+                      <th>New Cases (Last 7 Days)</th>
+                      <th>Total Deaths</th>
+                      <th>Risk Level</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{data.country}</td>
+                      <td>{data.cumulative_cases}</td>
+                      <td>{data.new_cases}</td>
+                      <td>{data.cumulative_deaths}</td>
+                      <td>{data.risk_level}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                {chartData ? (
+                  <Line data={chartData} options={chartOptions} />
+                ) : (
+                  <p>Loading chart data...</p>
                 )}
-            </div>
-            <div className="map-container">
-                <h3>Map Visualization</h3>
-                <MapContainer className="leaflet-container" center={coords} zoom={2}>
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    {data && (
-                        <>
-                            <SetViewOnClick coords={coords} />
-                            <Marker position={coords} icon={riskIcons[data.risk_level]}>
-                                <Popup>
-                                    {data.country}
-                                </Popup>
-                            </Marker>
-                        </>
-                    )}
-                </MapContainer>
-            </div>
-            <Footer />
+              </div>
+            )}
+          </div>
+          <div className="map-container">
+            <h3>Map Visualization</h3>
+            <MapContainer className="leaflet-container" center={coords} zoom={2}>
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              {data && (
+                <>
+                  <SetViewOnClick coords={coords} />
+                  <Marker position={coords} icon={riskIcons[data.risk_level]}>
+                    <Popup>
+                      {data.country}
+                    </Popup>
+                  </Marker>
+                </>
+              )}
+            </MapContainer>
+          </div>
+          <Footer className="footer">© 2024 ViRix. All rights reserved.</Footer>
         </div>
-    );
-};
-
-export default CovidStats;
+      );
+    };
+    
+    export default CovidStats;

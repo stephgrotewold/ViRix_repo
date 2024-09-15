@@ -1,6 +1,11 @@
+/* Footer.css */
 .footer {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
-  }
+  background-color: #4348be;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0; /* Asegúrate de agregar left: 0 para que se extienda a todo el ancho */
+}

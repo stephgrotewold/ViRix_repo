@@ -5,7 +5,7 @@ const Navbar = () => {
     return (
         <nav style={{ backgroundColor: '#333', color: 'white', padding: '10px' }}>
             <h1>ViRix</h1>
-            <p>Stay informed with the latest COVID-19 data</p>
+            <p>Spot the risk, stay safe</p>
         </nav>
     );
 };

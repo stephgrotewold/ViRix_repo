@@ -1,4 +1,39 @@
 /* App.css */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #4348be;
+  padding: 10px 20px;
+}
+
+.logo {
+  height: 60px; /* Ajustar el tamaño del logo */
+}
+
+.slogan {
+  color: white !important; /* Asegúrate de que el color sea blanco */
+  font-style: italic;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.nav-bar {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.nav-bar a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos adicionales para otras secciones */
 table {
   width: 100%;
   border-collapse: collapse;
