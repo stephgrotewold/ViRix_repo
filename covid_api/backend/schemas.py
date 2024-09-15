@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class CovidDataBase(BaseModel):
+class CovidData(BaseModel):
     country: str
     new_cases: Optional[int] = 0
     cumulative_cases: Optional[int] = 0
@@ -9,8 +9,4 @@ class CovidDataBase(BaseModel):
     cumulative_deaths: Optional[int] = 0
 
     class Config:
-        from_attributes = True
-
-class CovidData(CovidDataBase):
-    class Config:
-        from_attributes = True
+        orm_mode = True

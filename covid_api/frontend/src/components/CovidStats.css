@@ -1,49 +1,65 @@
-/* src/components/CovidStats.css */
 .covid-stats-container {
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .search-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .search-input {
-    flex: 1;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-  }
-  
-  .search-button {
-    margin-left: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .error-message {
-    color: red;
-    font-size: 14px;
-  }
-  
-  .stats-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .stats-table th, .stats-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #dee2e6;
-  }
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  max-width: 800px; /* Ajuste del tamaño máximo del contenedor */
+  margin: 0 auto;
+}
+
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.search-button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* Espacio entre la tabla y el mapa */
+}
+
+.stats-table th, .stats-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.map-container {
+  width: 100%;
+  height: 500px; /* Ajuste de la altura */
+  position: relative; /* Asegura que el contenedor tenga una posición relativa */
+  overflow: hidden; /* Oculta cualquier contenido que desborde */
+  margin-top: 20px; /* Espacio entre la tabla y el mapa */
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
