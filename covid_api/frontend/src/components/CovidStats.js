@@ -10,6 +10,9 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import redIcon from './markers/red.png';
+import yellowIcon from './markers/yellow.png';
+import greenIcon from './markers/green.png';
 import CovidMap from './CovidMap';
 
 // Registrar los componentes de Chart.js
@@ -267,6 +270,34 @@ const customMarkerIcon = L.icon({
     popupAnchor: [1, -34], // punto de anclaje del popup en relación al icono
     shadowSize: [41, 41] // tamaño de la sombra
 });
+
+// Íconos personalizados para cada nivel de riesgo
+const riskIcons = {
+    High: L.icon({
+        iconUrl: redIcon,
+        shadowUrl: markerShadow,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    Medium: L.icon({
+        iconUrl: yellowIcon,
+        shadowUrl: markerShadow,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    Low: L.icon({
+        iconUrl: greenIcon,
+        shadowUrl: markerShadow,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    })
+};
 
 const CovidStats = () => {
     const [location, setLocation] = useState('');
@@ -647,7 +678,7 @@ const CovidStats = () => {
                     {data && (
                         <>
                             <SetViewOnClick coords={coords} />
-                            <Marker position={coords} icon={customMarkerIcon}>
+                            <Marker position={coords} icon={riskIcons[data.risk_level]}>
                                 <Popup>
                                     {data.country}
                                 </Popup>
