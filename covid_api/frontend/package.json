@@ -11,6 +11,7 @@
     "ajv": "^8.17.1",
     "ajv-keywords": "^5.1.0",
     "axios": "^1.7.7",
+    "babel-plugin-polyfill-corejs2": "^0.4.11",
     "chart.js": "^3.9.1",
     "leaflet": "^1.7.1",
     "react": "^17.0.2",
