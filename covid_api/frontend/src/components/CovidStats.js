@@ -13,6 +13,7 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import redIcon from './markers/red.png';
 import yellowIcon from './markers/yellow.png';
 import greenIcon from './markers/green.png';
+import NewsFeed from './NewsFeed';
 import CovidMap from './CovidMap';
 
 // Registrar los componentes de Chart.js
@@ -619,77 +620,79 @@ const CovidStats = () => {
         <div>
             <div className="covid-stats-container">
                 <h2>Find your destination</h2>
-                <p className="info-text">Stay informed with the latest COVID-19 data</p>
+                <p className="info-text" style={{ color: 'darkgrey' }}>Stay informed with the latest COVID-19 data</p>
                 <div className="search-container">
                     <div className="search-input-wrapper">
                         <select
-                        className="search-input"
-                        value={location}
-                        onChange={e => setLocation(e.target.value)}
+                            className="search-input"
+                            value={location}
+                            onChange={e => setLocation(e.target.value)}
                         >
-                        <option value="">Select a country</option>
-                        {countries.map((country, index) => (
-                            <option key={index} value={country}>
-                            {country}
-                            </option>
-                        ))}
+                            <option value="">Select a country</option>
+                            {countries.map((country, index) => (
+                                <option key={index} value={country}>
+                                    {country}
+                                </option>
+                            ))}
                         </select>
                         <button className="search-button" onClick={handleSearch}>Search</button>
                     </div>
                 </div>
                 {error && <p className="error-message">{error}</p>}
+                {/* Mostrar el componente NewsFeed si no se ha buscado un país */}
+                {!data && <NewsFeed />}
+                {/* Mostrar los datos y el mapa solo después de hacer clic en Search */}
                 {data && (
-                <div>
-                    <table className="stats-table">
-                    <thead>
-                        <tr>
-                        <th>Country</th>
-                        <th>Total Cases</th>
-                        <th>New Cases (Last 7 Days)</th>
-                        <th>Total Deaths</th>
-                        <th>Risk Level</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <td>{data.country}</td>
-                        <td>{data.cumulative_cases}</td>
-                        <td>{data.new_cases}</td>
-                        <td>{data.cumulative_deaths}</td>
-                        <td>{data.risk_level}</td>
-                        </tr>
-                    </tbody>
-                    </table>
-                    {chartData ? (
-                    <Line data={chartData} options={chartOptions} />
-                    ) : (
-                    <p>Loading chart data...</p>
-                    )}
-                </div>
+                    <div>
+                        <table className="stats-table">
+                            <thead>
+                                <tr>
+                                    <th>Country</th>
+                                    <th>Total Cases</th>
+                                    <th>New Cases (Last 7 Days)</th>
+                                    <th>Total Deaths</th>
+                                    <th>Risk Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{data.country}</td>
+                                    <td>{data.cumulative_cases}</td>
+                                    <td>{data.new_cases}</td>
+                                    <td>{data.cumulative_deaths}</td>
+                                    <td>{data.risk_level}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {chartData ? (
+                            <Line data={chartData} options={chartOptions} />
+                        ) : (
+                            <p>Loading chart data...</p>
+                        )}
+                    </div>
                 )}
-            </div>
-            <div className="map-container">
-                <h3>Map Visualization</h3>
-                <MapContainer className="leaflet-container" center={coords} zoom={2}>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
                 {data && (
-                    <>
-                    <SetViewOnClick coords={coords} />
-                    <Marker position={coords} icon={riskIcons[data.risk_level]}>
-                        <Popup>
-                        {data.country}
-                        </Popup>
-                    </Marker>
-                    </>
+                    <div className="map-container">
+                        <h3>Map Visualization</h3>
+                        <MapContainer className="leaflet-container" center={coords} zoom={2}>
+                            <TileLayer
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            />
+                            {/* Añadir SetViewOnClick para actualizar la vista del mapa */}
+                            <SetViewOnClick coords={coords} />
+                            <Marker position={coords} icon={riskIcons[data.risk_level]}>
+                                <Popup>
+                                    {data.country}
+                                </Popup>
+                            </Marker>
+                        </MapContainer>
+                    </div>
                 )}
-                </MapContainer>
             </div>
             <Footer className="footer">© 2024 ViRix. All rights reserved.</Footer>
-            </div>
-      );
-    };
-    
-    export default CovidStats;
+        </div>
+    );
+};
+
+export default CovidStats;

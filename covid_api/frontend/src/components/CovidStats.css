@@ -6,10 +6,9 @@
   border-radius: 10px;
   padding: 40px 20px;
   margin: 20px 0;
-  color: white; /* Cambiar el color del texto para que sea visible sobre la imagen */
+  color: #333; /* Cambiar el color del texto para que sea visible sobre la imagen */
   text-align: center; /* Centrar el texto */
 }
-
 
 .header-text {
   color: #4348be; /* O cualquier otro color que desees probar */
@@ -19,7 +18,7 @@
 
 .covid-stats-container h2 {
   font-weight: bold;
-  color: white; /* Si quieres que el texto sea blanco */
+  color: #333; /* Si quieres que el texto sea blanco */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Opcional, para darle un poco de sombra */
 }
 
@@ -104,8 +103,8 @@
 }
 
 .info-text {
-  color: white; /* Cambia el color del texto a blanco */
-  font-weight: normal; /* Asegúrate de que no sea bold si no lo deseas */
+  color: #333; /* Usa un color oscuro */
+  font-weight: bold; /* Opcional, para que el texto sea más visible */
 }
 
 .footer {

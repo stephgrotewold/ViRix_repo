@@ -1,0 +1,48 @@
+/* src/components/NewsFeed.css */
+.news-feed-container {
+    background-color: #333;
+    color: white;
+    padding: 20px 30px; /* Ajustar el padding */
+    border-radius: 8px;
+    margin: 0 auto 20px auto; /* Centrando el contenedor */
+    max-width: 80%; /* Ajustar el ancho máximo para que no ocupe toda la pantalla */
+}
+
+.news-article {
+    margin-bottom: 15px;
+    list-style: none;
+    text-align: justify; /* Justificar el texto */
+}
+
+.news-container h2 {
+    color: white;
+    text-align: center; /* Centrando el título */
+}
+
+.news-container p {
+    color: white;
+    text-align: justify; /* Justificar el texto */
+}
+
+.news-article a {
+    text-decoration: none;
+    color: white;
+}
+
+.news-article h3 {
+    margin: 0;
+    font-size: 18px;
+    color: white;
+    font-weight: bold; /* Hacer el título en negrita */
+}
+
+.news-article p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: white;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+}
