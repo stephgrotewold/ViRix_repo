@@ -8,7 +8,6 @@ ViRix is a web application designed to provide up-to-date and accurate informati
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Project Structure](#project-structure)
 - [API Integration](#api-integration)
 
 ## Features
@@ -64,28 +63,6 @@ To run this project locally, follow these steps:
    - View the risk level of COVID-19 on the map and explore different countries.
 4. **Read the Latest News:**
    - Stay informed with the latest news related to COVID-19.
-
-## Project Structure
-
-```
-.
-├── public
-│   ├── images
-│   │   ├── masks.jpg
-│   │   ├── wash.jpg
-│   │   └── ... (other images)
-├── src
-│   ├── components
-│   │   ├── AboutUs.js
-│   │   ├── CovidStats.js
-│   │   ├── NewsFeed.js
-│   │   ├── Tips.js
-│   │   └── ... (other components)
-│   ├── App.js
-│   ├── index.js
-│   ├── App.css
-│   ├── ... (other files)
-```
 
 ## API Integration
 
