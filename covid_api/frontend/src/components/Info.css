@@ -6,7 +6,27 @@
     max-width: 800px;
     margin: 0 auto;
   }
-  
+  /* Info.css */
+.info-image {
+    max-width: 50%; /* Ajustar el tamaño al 50% del contenedor */
+    height: auto;
+    margin: 10px 0; /* Espaciado superior e inferior */
+    border-radius: 8px; /* Esquinas redondeadas */
+    display: block; /* Asegura que se muestre como un bloque */
+    margin-left: auto; /* Centrar la imagen horizontalmente */
+    margin-right: auto; /* Centrar la imagen horizontalmente */
+  }
+
+  .symptoms-images {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.symptom-image {
+    width: 30%; /* Ajusta el tamaño de las imágenes */
+    border-radius: 10px; /* Opcional: Añade bordes redondeados */
+}
   h2 {
     color: #4348be;
     text-align: center;

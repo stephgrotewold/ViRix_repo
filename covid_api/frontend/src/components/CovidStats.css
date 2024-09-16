@@ -1,35 +1,52 @@
-/* CovidStats.css */
 .covid-stats-container {
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  max-width: 800px;
-  margin: 0 auto;
+  position: relative;
+  background-image: url('./images/travel_4.jpg'); /* Asegúrate de que la ruta sea correcta */
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  padding: 40px 20px;
+  margin: 20px 0;
+  color: white; /* Cambiar el color del texto para que sea visible sobre la imagen */
+  text-align: center; /* Centrar el texto */
+}
+
+
+.header-text {
+  color: #4348be; /* O cualquier otro color que desees probar */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para mejorar el contraste */
+  font-weight: bold;
+}
+
+.covid-stats-container h2 {
+  font-weight: bold;
+  color: white; /* Si quieres que el texto sea blanco */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Opcional, para darle un poco de sombra */
 }
 
 .search-container {
   display: flex;
-  justify-content: center; /* Alinea al centro */
-  align-items: center; /* Alinea verticalmente */
-  margin-bottom: 20px;
-  gap: 10px; /* Espacio entre el select y el botón */
+  justify-content: center;
+  margin-top: 20px;
 }
 
-/* Ajuste para la barra de búsqueda integrada */
 .search-input-wrapper {
   display: flex;
   align-items: center;
-  overflow: hidden;
-  border: 1px solid #ced4da;
-  border-radius: 50px; /* Bordes redondeados */
+  background: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente */
+  border-radius: 20px;
+  padding: 10px;
+  width: 100%;
+  max-width: 600px; /* Limitar el ancho máximo */
 }
 
 .search-input {
-  flex: none; /* Quita el flex para que no se estire */
+  flex: 1;
+  border: none;
+  outline: none;
+  background: none;
   padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ced4da;
-  border-radius: 20px; /* Borde redondeado */
+  border-radius: 20px;
+  margin-right: 10px;
 }
 
 .search-button {
@@ -47,16 +64,27 @@
   font-size: 14px;
 }
 
+/* Fondo blanco semitransparente para la tabla */
 .stats-table {
-  width: 100%;
-  border-collapse: collapse;
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semitransparente */
+  border-radius: 10px;
+  padding: 15px;
   margin-top: 20px;
 }
 
-.stats-table th, .stats-table td {
+/* Fondo semi-transparente para las filas de la tabla */
+.stats-table tbody tr {
+  background-color: rgba(0, 0, 0, 0.7); /* Negro con 70% de opacidad */
+  color: white; /* Texto en blanco para mejor contraste */
+}
+
+.stats-table th {
+  background-color: rgba(0, 0, 0, 0.9); /* Fondo más oscuro para el encabezado */
+  color: white;
+}
+
+.stats-table td, .stats-table th {
   padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #dee2e6;
 }
 
 .map-container {
@@ -76,10 +104,8 @@
 }
 
 .info-text {
-  color: #333;
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
+  color: white; /* Cambia el color del texto a blanco */
+  font-weight: normal; /* Asegúrate de que no sea bold si no lo deseas */
 }
 
 .footer {

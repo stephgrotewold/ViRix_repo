@@ -1,21 +1,75 @@
 /* App.css */
 .app-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   background-color: #4348be;
   padding: 10px 20px;
 }
 
+.header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
 .logo {
-  height: 60px; /* Ajustar el tamaño del logo */
+  height: 70px; /* Ajustar el tamaño del logo */
+  margin-right: 20px;
+}
+
+.bm-burger-button {
+  position: relative;
+  width: 36px;
+  height: 30px;
+}
+
+.bm-burger-bars {
+  background: white;
+}
+
+.bm-menu {
+  background: #4348be;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+.bm-menu-item {
+  display: block;
+  padding: 10px;
+  color: white;
+  text-decoration: none;
+}
+
+.bm-item-list a {
+  padding: 0.5em;
+  color: white;
+  text-decoration: none;
+}
+
+.bm-menu-item:hover {
+  background-color: #333;
+}
+
+.bm-item-list a:hover {
+  background-color: #575fcf;
+}
+
+.bm-item {
+  display: inline-block;
+  color: #fff;
+  padding: 0.5em;
+}
+
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .slogan {
-  color: white !important; /* Asegúrate de que el color sea blanco */
-  font-style: italic;
   flex-grow: 1;
   text-align: center;
+  font-style: italic;
+  color: white;
 }
 
 .nav-bar {

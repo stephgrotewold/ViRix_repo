@@ -1,6 +1,11 @@
 // src/components/Info.js
 import React from 'react';
 import './Info.css';
+import breath from './images/breath.jpg';
+import cough from './images/cough.jpg';
+import temp from './images/temp.jpg';
+import test from './images/test.jpg';
+import emergency from './images/emergency.jpg';
 
 const Info = () => {
     return (
@@ -9,6 +14,11 @@ const Info = () => {
             <p>COVID-19, caused by the SARS-CoV-2 virus, primarily affects the respiratory system but can impact other parts of the body. It spreads quickly through respiratory droplets from an infected person, even if they show no symptoms.</p>
             
             <h3>Symptoms</h3>
+            <div className="symptoms-images">
+                <img src={temp} alt="Fever" className="symptom-image"/>
+                <img src={cough} alt="Cough" className="symptom-image"/>
+                <img src={breath} alt="Shortness of breath" className="symptom-image"/>
+            </div>
             <ul>
                 <li>Fever or chills</li>
                 <li>Cough</li>
@@ -29,6 +39,7 @@ const Info = () => {
             </ul>
 
             <h3>What to Do If Infected</h3>
+            <img src={test} alt="COVID-19 testing" className="info-image"/>
             <p>If diagnosed with COVID-19:</p>
             <ul>
                 <li>Mild cases can often be managed at home with over-the-counter medications, increased fluid intake, and rest.</li>
@@ -43,6 +54,7 @@ const Info = () => {
                 <li>United Kingdom: NHS 111</li>
                 <li>India: Ministry of Health & Family Welfare Helpline</li>
                 <li>Australia: National Coronavirus Helpline</li>
+                <img src={emergency} alt="Emergency room" className="info-image"/>
             </ul>
         </div>
     );

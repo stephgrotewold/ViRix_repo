@@ -7,6 +7,16 @@
     margin: 0 auto;
 }
 
+.tips-image {
+    max-width: 50%; /* Ajusta el tamaño al 50% del contenedor */
+    height: auto;
+    margin: 10px 0; /* Espaciado superior e inferior */
+    border-radius: 8px; /* Esquinas redondeadas */
+    display: block; /* Asegura que se muestre como un bloque */
+    margin-left: auto; /* Centrar la imagen horizontalmente */
+    margin-right: auto; /* Centrar la imagen horizontalmente */
+}
+
 h2 {
     color: #4348be;
     text-align: center;

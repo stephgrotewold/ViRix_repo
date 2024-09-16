@@ -1,6 +1,12 @@
 // src/components/Tips.js
 import React from 'react';
 import './Tips.css';
+import masks from './images/masks.jpg';
+import wash from './images/wash.jpg';
+import water from './images/water.jpg';
+import wipes from './images/wipes.jpg';
+import vaccine from './images/vaccine.jpg';
+import distance from './images/distance.jpg';
 
 const Tips = () => {
     return (
@@ -9,6 +15,7 @@ const Tips = () => {
             <p>To reduce the risk of contracting or spreading COVID-19, consider implementing the following prevention methods:</p>
             
             <h3>Personal Hygiene</h3>
+            <img src={wash} alt="Washing hands" className="tips-image"/>
             <ul>
                 <li><strong>Wash Your Hands:</strong> Wash your hands frequently with soap and water for at least 20 seconds, especially after being in a public place, or after coughing or sneezing. Use hand sanitizer with at least 60% alcohol if soap and water are not available.</li>
                 <li><strong>Avoid Touching Your Face:</strong> Avoid touching your eyes, nose, and mouth with unwashed hands to prevent the virus from entering your body.</li>
@@ -16,6 +23,7 @@ const Tips = () => {
             </ul>
 
             <h3>Mask Wearing</h3>
+            <img src={masks} alt="Wearing masks" className="tips-image"/>
             <ul>
                 <li><strong>Wear Masks in Public:</strong> Wear a mask that covers your nose and mouth when you are in public settings, especially when social distancing measures are difficult to maintain. Choose masks with multiple layers and a snug fit.</li>
                 <li><strong>Avoid Touching the Mask:</strong> Avoid touching the front of your mask while wearing it. Always wash your hands before putting on and after taking off your mask.</li>
@@ -23,6 +31,7 @@ const Tips = () => {
             </ul>
 
             <h3>Social Distancing</h3>
+            <img src={distance} alt="Social Distancing" className="tips-image"/>
             <ul>
                 <li><strong>Maintain Distance:</strong> Stay at least 6 feet (2 meters) away from others who are not from your household, especially if they are coughing, sneezing, or not wearing a mask.</li>
                 <li><strong>Avoid Crowded Places:</strong> Avoid gathering in large groups and stay away from crowded spaces like restaurants, bars, gyms, and public transport when possible.</li>
@@ -30,18 +39,21 @@ const Tips = () => {
             </ul>
 
             <h3>Vaccination</h3>
+            <img src={vaccine} alt="Vaccination" className="tips-image"/>
             <ul>
                 <li><strong>Get Vaccinated:</strong> Get vaccinated when eligible. Vaccines are a crucial tool in preventing severe illness and slowing the spread of the virus.</li>
                 <li><strong>Keep Up with Booster Shots:</strong> Follow guidelines regarding booster shots to maintain immunity, especially if new variants of concern emerge.</li>
             </ul>
 
             <h3>Healthy Lifestyle</h3>
+            <img src={water} alt="Drinking water" className="tips-image"/>
             <ul>
                 <li><strong>Boost Your Immune System:</strong> Eat a balanced diet, exercise regularly, get adequate sleep, and manage stress to keep your immune system strong.</li>
                 <li><strong>Stay Hydrated:</strong> Drink plenty of fluids to maintain good health and assist in flushing toxins from your body.</li>
             </ul>
 
             <h3>Environmental Cleaning</h3>
+            <img src={wipes} alt="Disinfecting surfaces" className="tips-image"/>
             <ul>
                 <li><strong>Disinfect Surfaces:</strong> Regularly clean and disinfect frequently touched objects and surfaces, such as doorknobs, light switches, and mobile devices.</li>
                 <li><strong>Ventilate Indoor Spaces:</strong> Open windows and doors to improve ventilation and reduce the concentration of airborne contaminants in indoor environments.</li>
