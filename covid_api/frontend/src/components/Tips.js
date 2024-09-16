@@ -11,7 +11,7 @@ import distance from './images/distance.jpg';
 const Tips = () => {
     return (
         <div className="tips-container">
-            <h2>COVID-19 Prevention Tips</h2>
+            <h2 style={{ color: '#333', marginBottom: '20px', fontWeight: 'bold' }}>Prevention Tips</h2>
             <p>To reduce the risk of contracting or spreading COVID-19, consider implementing the following prevention methods:</p>
             
             <h3>Personal Hygiene</h3>

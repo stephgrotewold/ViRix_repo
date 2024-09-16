@@ -10,7 +10,7 @@ import emergency from './images/emergency.jpg';
 const Info = () => {
     return (
         <div className="info-container">
-            <h2>COVID-19 Information</h2>
+            <h2 style={{ color: '#333', marginBottom: '20px', fontWeight: 'bold' }}>COVID-19 Information</h2>
             <p>COVID-19, caused by the SARS-CoV-2 virus, primarily affects the respiratory system but can impact other parts of the body. It spreads quickly through respiratory droplets from an infected person, even if they show no symptoms.</p>
             
             <h3>Symptoms</h3>

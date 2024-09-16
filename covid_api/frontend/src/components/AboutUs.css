@@ -8,8 +8,9 @@
 }
 
 .about-us-container h2 {
-    color: #4348be;
+    color: #333;
     margin-bottom: 20px;
+    font-weight: bold; /* Make the text bold */
 }
 
 .about-us-container h3 {
