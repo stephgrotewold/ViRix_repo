@@ -627,6 +627,11 @@ const CovidStats = () => {
                             className="search-input"
                             value={location}
                             onChange={e => setLocation(e.target.value)}
+                            onKeyDown={e => {
+                                if (e.key === 'Enter') {
+                                    handleSearch();
+                                }
+                            }}
                         >
                             <option value="">Select a country</option>
                             {countries.map((country, index) => (

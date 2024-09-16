@@ -1,16 +1,39 @@
 /* App.css */
 .app-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #4348be;
+  justify-content: space-between;
+  background-color: #4348be; /* Background color for the header */
   padding: 10px 20px;
 }
 
 .header-content {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
+}
+
+.slogan {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em; /* Adjust font size for visibility */
+  color: white;
+  margin: 0;
+  text-align: center;
+  font-style: italic; /* Make the text italic */
+}
+
+.slogan {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .slogan {
+      display: none;
+  }
 }
 
 .logo {
@@ -65,12 +88,28 @@
   background: rgba(0, 0, 0, 0.3);
 }
 
-.slogan {
-  flex-grow: 1;
-  text-align: center;
-  font-style: italic;
-  color: white;
+
+/* Default styles: show hamburger menu, hide regular links */
+.menu {
+  display: none;
 }
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+/* Show hamburger menu and hide regular links when screen width is below 768px */
+@media (max-width: 768px) {
+  .menu {
+      display: block;
+  }
+  
+  .nav-links {
+      display: none;
+  }
+}
+
 
 .nav-bar {
   display: flex;
@@ -81,6 +120,7 @@
   color: white;
   text-decoration: none;
   font-size: 16px;
+  font-weight: bold;
 }
 
 .nav-bar a:hover {

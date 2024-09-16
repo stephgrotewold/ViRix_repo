@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// src/App.js
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import CovidStats from './components/CovidStats';
 import { slide as Menu } from 'react-burger-menu';
@@ -11,6 +12,16 @@ import './App.css';
 
 function App() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const closeMenu = () => {
         setMenuOpen(false);
@@ -23,19 +34,28 @@ function App() {
                     <div className="header-content">
                         <img src={logo} alt="ViRix Logo" className="logo" />
                         <div className="slogan">
-                            <p style={{ color: 'white' }}>Spot the risk, stay safe</p>
+                            Spot the risk, stay safe
                         </div>
-                        <Menu right isOpen={menuOpen} onStateChange={(state) => setMenuOpen(state.isOpen)}>
-                            <Link to="/" onClick={closeMenu}>Map</Link>
-                            <Link to="/info" onClick={closeMenu}>Info</Link>
-                            <Link to="/about" onClick={closeMenu}>About Us</Link>
-                            <Link to="/tips" onClick={closeMenu}>Tips</Link>
-                        </Menu>
+                        {isMobile ? (
+                            <Menu right isOpen={menuOpen} onStateChange={(state) => setMenuOpen(state.isOpen)}>
+                                <Link to="/" onClick={closeMenu}>Map</Link>
+                                <Link to="/info" onClick={closeMenu}>Info</Link>
+                                <Link to="/about" onClick={closeMenu}>About Us</Link>
+                                <Link to="/tips" onClick={closeMenu}>Tips</Link>
+                            </Menu>
+                        ) : (
+                            <nav className="nav-bar">
+                                <Link to="/">Map</Link>
+                                <Link to="/info">Info</Link>
+                                <Link to="/about">About Us</Link>
+                                <Link to="/tips">Tips</Link>
+                            </nav>
+                        )}
                     </div>
                 </header>
                 <main>
                     <Routes>
-                        <Route path="/map" component={CovidStats} />
+                        <Route path="/map" element={<CovidStats />} />
                         <Route path="/" element={<CovidStats />} />
                         <Route path="/info" element={<Info />} />
                         <Route path="/tips" element={<Tips />} />
