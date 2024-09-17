@@ -8,6 +8,7 @@
   margin: 20px 0;
   color: #333; /* Cambiar el color del texto para que sea visible sobre la imagen */
   text-align: center; /* Centrar el texto */
+  margin-top: 90px;
 }
 
 .header-text {

@@ -10,6 +10,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import 'leaflet.heat';
 import redIcon from './markers/red.png';
 import yellowIcon from './markers/yellow.png';
 import greenIcon from './markers/green.png';

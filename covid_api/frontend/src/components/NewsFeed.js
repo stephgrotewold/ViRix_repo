@@ -12,10 +12,10 @@ const NewsFeed = () => {
             try {
                 const response = await axios.get('https://newsapi.org/v2/everything?q=COVID-19&sortBy=publishedAt&language=en&apiKey=8eecf67953b64ce184bc8ba69886fc6e');
                 const filteredArticles = response.data.articles.filter(article => 
-                    article.title.toLowerCase().includes('covid') ||
-                    article.description.toLowerCase().includes('covid')
+                    (article.title && article.title.toLowerCase().includes('covid')) ||
+                    (article.description && article.description.toLowerCase().includes('covid'))
                 );
-
+                
                 const uniqueArticles = [];
                 const titles = new Set();
                 filteredArticles.forEach(article => {
@@ -28,8 +28,13 @@ const NewsFeed = () => {
                 setArticles(uniqueArticles);
             } catch (error) {
                 console.error('Error fetching news:', error);
+                if (error.response) {
+                    console.log('Response data:', error.response.data);
+                    console.log('Response status:', error.response.status);
+                }
                 setError('Failed to load news articles. Please try again later.');
             }
+            
         };
 
         fetchNews();

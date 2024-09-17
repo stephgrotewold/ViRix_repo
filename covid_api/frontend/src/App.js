@@ -7,6 +7,7 @@ import logo from './components/logo/logo-horizontal.png';
 import Footer from './components/Footer';
 import Info from './components/Info';
 import Tips from './components/Tips';
+import HeatMap from './components/HeatMap';
 import AboutUs from './components/AboutUs';
 import './App.css';
 
@@ -40,15 +41,17 @@ function App() {
                             <Menu right isOpen={menuOpen} onStateChange={(state) => setMenuOpen(state.isOpen)}>
                                 <Link to="/" onClick={closeMenu}>Map</Link>
                                 <Link to="/info" onClick={closeMenu}>Info</Link>
-                                <Link to="/about" onClick={closeMenu}>About Us</Link>
                                 <Link to="/tips" onClick={closeMenu}>Tips</Link>
+                                <Link to="/about" onClick={closeMenu}>About Us</Link>
+                                <Link to="/heatmap" onClick={closeMenu}>Heat Map</Link>
                             </Menu>
                         ) : (
                             <nav className="nav-bar">
                                 <Link to="/">Map</Link>
                                 <Link to="/info">Info</Link>
-                                <Link to="/about">About Us</Link>
                                 <Link to="/tips">Tips</Link>
+                                <Link to="/about">About Us</Link>
+                                <Link to='/heatmap'>Heat Map</Link>
                             </nav>
                         )}
                     </div>
@@ -60,6 +63,7 @@ function App() {
                         <Route path="/info" element={<Info />} />
                         <Route path="/tips" element={<Tips />} />
                         <Route path="/about" element={<AboutUs />} />
+                        <Route path="/heatmap" element={<HeatMap />} />
                     </Routes>
                 </main>
                 <Footer />

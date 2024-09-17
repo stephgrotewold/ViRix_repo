@@ -22,3 +22,6 @@ def get_covid_data_by_country(db: Session, country: str):
             'cumulative_deaths': data.cumulative_deaths if data.cumulative_deaths is not None else 0,
         }
     return None
+
+def get_covid_data_by_who_region(db: Session, who_region: str):
+    return db.query(models.CovidData).filter(models.CovidData.who_region == who_region).all()

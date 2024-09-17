@@ -1,10 +1,19 @@
-/* App.css */
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #4348be; /* Background color for the header */
+  background-color: #4348be;
   padding: 10px 20px;
+  position: fixed; /* Fija el header en la parte superior */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Asegura que el header esté encima de otros elementos */
+}
+
+.heatmap-container {
+  margin-top: 80px; /* Ajusta este valor según la altura del header */
+  padding: 20px;
 }
 
 .header-content {
