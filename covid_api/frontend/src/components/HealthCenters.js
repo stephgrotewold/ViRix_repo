@@ -282,20 +282,25 @@ const HealthCenters = () => {
     };
 
     const addCenter = async () => {
-        const newCenter = {
-            name,
-            address,
-            phone_number: phoneNumber,
-            services,
-            latitude: countries[country][0],
-            longitude: countries[country][1]
-        };
-        try {
-            await axios.post('http://localhost:8000/health_centers/', newCenter);
-            fetchCenters();  // Actualizar la lista de centros
-            clearForm();  // Limpiar el formulario
-        } catch (error) {
-            console.error("Error adding health center:", error);
+        if (name && address && phoneNumber && services && country) {
+            const newCenter = {
+                name,
+                address,
+                phone_number: phoneNumber,
+                services,
+                latitude: countries[country][0],
+                longitude: countries[country][1]
+            };
+
+            try {
+                await axios.post('http://localhost:8000/health_centers/', newCenter);
+                fetchCenters();
+                clearForm();
+            } catch (error) {
+                console.error("Error adding health center:", error);
+            }
+        } else {
+            alert('Please fill out all fields before adding a health center');
         }
     };
 
@@ -305,7 +310,7 @@ const HealthCenters = () => {
         setPhoneNumber('');
         setServices('');
         setCountry('');
-        setEditingCenter(null); // Restablecer el modo edición
+        setEditingCenter(null);
     };
 
     const deleteCenter = async (id) => {
@@ -338,7 +343,7 @@ const HealthCenters = () => {
         try {
             await axios.put(`http://localhost:8000/health_centers/${editingCenter.id}`, updatedCenter);
             fetchCenters();
-            clearForm();  // Limpiar el formulario y salir del modo edición
+            clearForm();
         } catch (error) {
             console.error("Error updating health center:", error);
         }
@@ -348,24 +353,33 @@ const HealthCenters = () => {
         <div className="health-centers-container">
             <div className="form-container">
                 <h2>{editingCenter ? 'Edit Health Center' : 'Add New Health Center'}</h2>
+                
+                {/* Campos del formulario */}
+                <label>Enter Name</label>
                 <input
                     type="text"
                     placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
+                
+                <label>Enter Address</label>
                 <input
                     type="text"
                     placeholder="Address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                 />
+                
+                <label>Enter Phone Number</label>
                 <input
                     type="text"
                     placeholder="Phone Number"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                 />
+                
+                <label>Select Service</label>
                 <select
                     value={services}
                     onChange={(e) => setServices(e.target.value)}
@@ -375,6 +389,8 @@ const HealthCenters = () => {
                         <option key={index} value={service}>{service}</option>
                     ))}
                 </select>
+                
+                <label>Select Country</label>
                 <select
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
@@ -384,6 +400,7 @@ const HealthCenters = () => {
                         <option key={index} value={countryName}>{countryName}</option>
                     ))}
                 </select>
+                
                 <div className="button-group">
                     {editingCenter && (
                         <button className="cancel-button" onClick={clearForm}>
@@ -395,6 +412,7 @@ const HealthCenters = () => {
                     </button>
                 </div>
             </div>
+
             <div className="list-container">
                 <h2>Existing Health Centers</h2>
                 <ul>
@@ -404,8 +422,8 @@ const HealthCenters = () => {
                             <p>Phone: {center.phone_number}</p>
                             <p>Services: {center.services}</p>
                             <p>Country: {getCountryByCoordinates(center.latitude, center.longitude)}</p>
-                            <button onClick={() => editCenter(center)}>Edit</button>
-                            <button onClick={() => deleteCenter(center.id)}>Delete</button>
+                            <button className="edit-button" onClick={() => editCenter(center)}>Edit</button>
+                            <button className="delete-button" onClick={() => deleteCenter(center.id)}>Delete</button>
                         </li>
                     ))}
                 </ul>

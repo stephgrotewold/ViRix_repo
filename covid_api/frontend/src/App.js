@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import CovidStats from './components/CovidStats';
@@ -29,6 +28,10 @@ function App() {
         setMenuOpen(false);
     };
 
+    const handleMenuStateChange = (state) => {
+        setMenuOpen(state.isOpen);
+    };
+
     return (
         <Router>
             <div className="app-container">
@@ -39,13 +42,18 @@ function App() {
                             Spot the risk, stay safe
                         </div>
                         {isMobile ? (
-                            <Menu right isOpen={menuOpen} onStateChange={(state) => setMenuOpen(state.isOpen)}>
+                            <Menu 
+                                right 
+                                isOpen={menuOpen} 
+                                onStateChange={handleMenuStateChange}
+                                className="burger-menu" // Asegúrate de que haya un className definido
+                            >
                                 <Link to="/" onClick={closeMenu}>Inicio</Link>
                                 <Link to="/info" onClick={closeMenu}>Info</Link>
                                 <Link to="/tips" onClick={closeMenu}>Tips</Link>
                                 <Link to="/about" onClick={closeMenu}>About Us</Link>
                                 <Link to="/heatmap" onClick={closeMenu}>Heat Map</Link>
-                                <Link to="/healthcenters" onClick={closeMenu}>Health Centers</Link>  {/* Nueva ruta para Health Centers */}
+                                <Link to="/healthcenters" onClick={closeMenu}>Health Centers</Link>  
                             </Menu>
                         ) : (
                             <nav className="nav-bar">

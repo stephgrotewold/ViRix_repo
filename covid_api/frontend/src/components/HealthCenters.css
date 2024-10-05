@@ -27,28 +27,30 @@
 
 input, select {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 25px; /* Espacio más amplio entre los campos */
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 16px;
 }
 
 button {
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+    padding: 12px;
+    background-color: #28a745;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 25px; /* Redondear el botón */
     cursor: pointer;
     font-size: 16px;
+    margin-top: 20px; /* Añadir espacio adicional */
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #218838;
 }
 
+/* Ajustar los botones de la lista de centros de salud */
 .list-container ul {
     list-style-type: none;
     padding: 0;
@@ -57,42 +59,102 @@ button:hover {
 .list-container li {
     background-color: #fafafa;
     padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 4px;
+    margin-bottom: 20px;
+    border-radius: 8px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
 }
 
-/* Nuevos estilos para hacer los botones más pequeños */
-.list-container button {
-    width: auto; /* Ajuste del ancho automático */
-    padding: 5px 10px; /* Tamaño reducido del botón */
-    margin-right: 10px; /* Espaciado entre los botones */
-    font-size: 14px; /* Tamaño de fuente más pequeño */
-}
-
-.list-container button:last-child {
-    margin-right: 0; /* Sin margen derecho para el último botón */
-}
-
-.button-group {
+.list-container .button-group {
     display: flex;
-    justify-content: space-between;
-    gap: 10px; /* Añadir espacio entre los botones */
-    margin-top: 10px;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
-/* Estilos específicos para los botones de Update y Cancel */
-button.update-button, button.cancel-button {
-    width: 45%; /* Reducir el ancho de los botones */
-    padding: 8px; /* Ajustar el padding */
-    font-size: 14px; /* Reducir el tamaño de la fuente */
+/* Asegurar que los botones de Edit y Delete tengan el mismo tamaño */
+.list-container button.edit-button, .list-container button.delete-button {
+    width: 100px; /* Ancho fijo para ambos botones */
+    padding: 10px 0; /* Ajustar padding para altura consistente */
+    border-radius: 20px; /* Botones redondeados */
+    font-size: 14px;
 }
 
-button.cancel-button {
+/* Rojo para el botón Delete */
+.list-container button.delete-button {
     background-color: #f44336;
     color: white;
 }
 
+.list-container button.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+/* Azul para el botón Edit */
+.list-container button.edit-button {
+    background-color: #007bff;
+}
+
+.list-container button.edit-button:hover {
+    background-color: #0056b3;
+}
+
+/* Ajustar el espacio entre subtítulos y campos */
+label {
+    font-weight: bold;
+    margin-bottom: 5px; /* Espacio pequeño debajo del subtítulo */
+    display: block;
+    color: #333;
+}
+
+/* Contenedor para los botones de Update y Cancel */
+.button-group {
+    display: flex;
+    justify-content: center; /* Centrar los botones */
+    gap: 20px; /* Espacio entre los botones */
+}
+
+/* Botones en el formulario de edición */
+button.update-button, button.cancel-button {
+    background-color: #007bff;
+    border-radius: 25px; /* Botón redondeado */
+    width: 48%; /* Mantener tamaño pequeño y proporcional */
+    padding: 10px;
+}
+
+button.cancel-button {
+    background-color: #f44336;
+    border-radius: 25px; /* Botón redondeado */
+}
+
 button.cancel-button:hover {
     background-color: #d32f2f;
+}
+
+/* Botón de Update */
+button.update-button {
+    background-color: #007bff;
+}
+
+button.update-button:hover {
+    background-color: #0056b3;
+}
+
+/* Botón Add con espacio */
+button.add-button {
+    background-color: #28a745;
+    border-radius: 25px; /* Botón redondeado */
+    margin-top: 25px; /* Espacio adicional sobre el botón */
+}
+
+/* Espacio entre los campos y los botones */
+input, select {
+    margin-bottom: 30px; /* Aumentar el espacio entre campos */
+}
+
+button.update-button, button.cancel-button {
+    margin-top: 25px; /* Espacio adicional entre botones y campos */
+}
+
+button.add-button {
+    margin-top: 25px; /* Espacio adicional entre botones y campos */
 }
