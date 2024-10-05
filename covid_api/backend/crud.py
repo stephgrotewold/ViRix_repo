@@ -1,7 +1,9 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-import models
+import models, schemas
+from repositories import HealthCenterRepository, CovidDataRepository
 
+# Función para obtener datos de COVID por país
 def get_covid_data_by_country(db: Session, country: str):
     # Agrupa y suma los valores por país
     data = db.query(
@@ -23,5 +25,60 @@ def get_covid_data_by_country(db: Session, country: str):
         }
     return None
 
-def get_covid_data_by_who_region(db: Session, who_region: str):
-    return db.query(models.CovidData).filter(models.CovidData.who_region == who_region).all()
+# Función para obtener datos para el mapa de calor
+def get_heatmap_data(db: Session):
+    data = db.query(
+        models.CovidData.country,
+        func.sum(models.CovidData.cumulative_cases).label('cumulative_cases'),
+        func.sum(models.CovidData.cumulative_deaths).label('cumulative_deaths'),
+        func.sum(models.CovidData.new_cases).label('new_cases'),
+        func.sum(models.CovidData.new_deaths).label('new_deaths')
+    ).group_by(models.CovidData.country).all()
+
+    if data:
+        return [
+            {
+                'country': item.country,
+                'cumulative_cases': item.cumulative_cases if item.cumulative_cases is not None else 0,
+                'cumulative_deaths': item.cumulative_deaths if item.cumulative_deaths is not None else 0,
+                'new_cases': item.new_cases if item.new_cases is not None else 0,
+                'new_deaths': item.new_deaths if item.new_deaths is not None else 0,
+            }
+            for item in data
+        ]
+    return []
+
+# Funciones CRUD para HealthCenter
+def create_health_center(db: Session, health_center: schemas.HealthCenterCreate):
+    repo = HealthCenterRepository(db)
+    db_center = models.HealthCenter(**health_center.dict())
+    return repo.add(db_center)
+
+def get_health_centers(db: Session, skip: int = 0, limit: int = 10):
+    repo = HealthCenterRepository(db)
+    return repo.get_all(models.HealthCenter, skip, limit)
+
+def update_health_center(db: Session, center_id: int, updated_data: schemas.HealthCenterUpdate):
+    repo = HealthCenterRepository(db)
+    center = repo.get(models.HealthCenter, center_id)
+    
+    # Comprobación para asegurarse de que el centro existe
+    if not center:
+        return None
+    
+    # Actualización de los campos disponibles
+    for key, value in updated_data.dict(exclude_unset=True).items():
+        setattr(center, key, value)
+    
+    return repo.update(center)
+
+def delete_health_center(db: Session, center_id: int):
+    repo = HealthCenterRepository(db)
+    center = repo.get(models.HealthCenter, center_id)
+    
+    # Comprobación para asegurarse de que el centro existe
+    if not center:
+        return False
+    
+    repo.delete(center)
+    return True

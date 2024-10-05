@@ -13,3 +13,14 @@ class CovidData(Base):
     cumulative_cases = Column(Integer)
     new_deaths = Column(Integer)
     cumulative_deaths = Column(Integer)
+
+class HealthCenter(Base):
+    __tablename__ = "health_centers"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    address = Column(String)
+    phone_number = Column(String)
+    services = Column(String)
+    latitude = Column(Numeric(10, 8))
+    longitude = Column(Numeric(11, 8))

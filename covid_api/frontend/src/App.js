@@ -9,6 +9,7 @@ import Info from './components/Info';
 import Tips from './components/Tips';
 import HeatMap from './components/HeatMap';
 import AboutUs from './components/AboutUs';
+import HealthCenters from './components/HealthCenters'; 
 import './App.css';
 
 function App() {
@@ -39,31 +40,34 @@ function App() {
                         </div>
                         {isMobile ? (
                             <Menu right isOpen={menuOpen} onStateChange={(state) => setMenuOpen(state.isOpen)}>
-                                <Link to="/" onClick={closeMenu}>Map</Link>
+                                <Link to="/" onClick={closeMenu}>Inicio</Link>
                                 <Link to="/info" onClick={closeMenu}>Info</Link>
                                 <Link to="/tips" onClick={closeMenu}>Tips</Link>
                                 <Link to="/about" onClick={closeMenu}>About Us</Link>
                                 <Link to="/heatmap" onClick={closeMenu}>Heat Map</Link>
+                                <Link to="/healthcenters" onClick={closeMenu}>Health Centers</Link>  {/* Nueva ruta para Health Centers */}
                             </Menu>
                         ) : (
                             <nav className="nav-bar">
-                                <Link to="/">Map</Link>
+                                <Link to="/">Inicio</Link>
                                 <Link to="/info">Info</Link>
                                 <Link to="/tips">Tips</Link>
                                 <Link to="/about">About Us</Link>
                                 <Link to='/heatmap'>Heat Map</Link>
+                                <Link to="/healthcenters">Health Centers</Link>
                             </nav>
                         )}
                     </div>
                 </header>
                 <main>
                     <Routes>
-                        <Route path="/map" element={<CovidStats />} />
+                        <Route path="/inicio" element={<CovidStats />} />
                         <Route path="/" element={<CovidStats />} />
                         <Route path="/info" element={<Info />} />
                         <Route path="/tips" element={<Tips />} />
                         <Route path="/about" element={<AboutUs />} />
                         <Route path="/heatmap" element={<HeatMap />} />
+                        <Route path="/healthcenters" element={<HealthCenters />} />
                     </Routes>
                 </main>
                 <Footer />

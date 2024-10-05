@@ -1,0 +1,98 @@
+.health-centers-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 80px;
+}
+
+.form-container {
+    flex: 1;
+    margin-right: 20px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.list-container {
+    flex: 1;
+    margin-left: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.list-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.list-container li {
+    background-color: #fafafa;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Nuevos estilos para hacer los botones más pequeños */
+.list-container button {
+    width: auto; /* Ajuste del ancho automático */
+    padding: 5px 10px; /* Tamaño reducido del botón */
+    margin-right: 10px; /* Espaciado entre los botones */
+    font-size: 14px; /* Tamaño de fuente más pequeño */
+}
+
+.list-container button:last-child {
+    margin-right: 0; /* Sin margen derecho para el último botón */
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Añadir espacio entre los botones */
+    margin-top: 10px;
+}
+
+/* Estilos específicos para los botones de Update y Cancel */
+button.update-button, button.cancel-button {
+    width: 45%; /* Reducir el ancho de los botones */
+    padding: 8px; /* Ajustar el padding */
+    font-size: 14px; /* Reducir el tamaño de la fuente */
+}
+
+button.cancel-button {
+    background-color: #f44336;
+    color: white;
+}
+
+button.cancel-button:hover {
+    background-color: #d32f2f;
+}
