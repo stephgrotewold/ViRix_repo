@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-country-flag": "^3.1.0",
+    "react-phone-input-2": "^2.15.1"
+  }
+}

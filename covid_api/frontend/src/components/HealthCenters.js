@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import './HealthCenters.css';
 
 const servicesOptions = [
@@ -250,40 +252,89 @@ const countries = {
         'Zimbabwe': [-19.0154, 29.1549]
     };
 
-const getCountryByCoordinates = (latitude, longitude) => {
-    for (const [country, coords] of Object.entries(countries)) {
-        if (coords[0] === latitude && coords[1] === longitude) {
-            return country;
+    const getCountryByCoordinates = (latitude, longitude) => {
+        for (const [country, coords] of Object.entries(countries)) {
+            if (coords[0] === latitude && coords[1] === longitude) {
+                return country;
+            }
         }
-    }
-    return 'Unknown';
-};
-
-const HealthCenters = () => {
-    const [centers, setCenters] = useState([]);
-    const [name, setName] = useState('');
-    const [address, setAddress] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [services, setServices] = useState('');
-    const [country, setCountry] = useState('');
-    const [editingCenter, setEditingCenter] = useState(null);
-
-    useEffect(() => {
-        fetchCenters();
-    }, []);
-
-    const fetchCenters = async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/health_centers/');
-            setCenters(response.data);
-        } catch (error) {
-            console.error("Error fetching health centers:", error);
-        }
+        return 'Unknown';
     };
-
-    const addCenter = async () => {
-        if (name && address && phoneNumber && services && country) {
-            const newCenter = {
+    
+    const HealthCenters = () => {
+        const [centers, setCenters] = useState([]);
+        const [name, setName] = useState('');
+        const [address, setAddress] = useState('');
+        const [phoneNumber, setPhoneNumber] = useState('');
+        const [services, setServices] = useState('');
+        const [country, setCountry] = useState('');
+        const [editingCenter, setEditingCenter] = useState(null);
+    
+        useEffect(() => {
+            fetchCenters();
+        }, []);
+    
+        const fetchCenters = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/health_centers/');
+                setCenters(response.data);
+            } catch (error) {
+                console.error("Error fetching health centers:", error);
+            }
+        };
+    
+        const addCenter = async () => {
+            if (name && address && phoneNumber && services && country) {
+                const newCenter = {
+                    name,
+                    address,
+                    phone_number: phoneNumber,
+                    services,
+                    latitude: countries[country][0],
+                    longitude: countries[country][1]
+                };
+    
+                try {
+                    await axios.post('http://localhost:8000/health_centers/', newCenter);
+                    fetchCenters();
+                    clearForm();
+                } catch (error) {
+                    console.error("Error adding health center:", error);
+                }
+            } else {
+                alert('Please fill out all fields before adding a health center');
+            }
+        };
+    
+        const clearForm = () => {
+            setName('');
+            setAddress('');
+            setPhoneNumber('');
+            setServices('');
+            setCountry('');
+            setEditingCenter(null);
+        };
+    
+        const deleteCenter = async (id) => {
+            try {
+                await axios.delete(`http://localhost:8000/health_centers/${id}`);
+                fetchCenters();
+            } catch (error) {
+                console.error("Error deleting health center:", error);
+            }
+        };
+    
+        const editCenter = (center) => {
+            setEditingCenter(center);
+            setName(center.name);
+            setAddress(center.address);
+            setPhoneNumber(center.phone_number);
+            setServices(center.services);
+            setCountry(getCountryByCoordinates(center.latitude, center.longitude));
+        };
+    
+        const updateCenter = async () => {
+            const updatedCenter = {
                 name,
                 address,
                 phone_number: phoneNumber,
@@ -291,145 +342,100 @@ const HealthCenters = () => {
                 latitude: countries[country][0],
                 longitude: countries[country][1]
             };
-
             try {
-                await axios.post('http://localhost:8000/health_centers/', newCenter);
+                await axios.put(`http://localhost:8000/health_centers/${editingCenter.id}`, updatedCenter);
                 fetchCenters();
                 clearForm();
             } catch (error) {
-                console.error("Error adding health center:", error);
+                console.error("Error updating health center:", error);
             }
-        } else {
-            alert('Please fill out all fields before adding a health center');
-        }
-    };
-
-    const clearForm = () => {
-        setName('');
-        setAddress('');
-        setPhoneNumber('');
-        setServices('');
-        setCountry('');
-        setEditingCenter(null);
-    };
-
-    const deleteCenter = async (id) => {
-        try {
-            await axios.delete(`http://localhost:8000/health_centers/${id}`);
-            fetchCenters();
-        } catch (error) {
-            console.error("Error deleting health center:", error);
-        }
-    };
-
-    const editCenter = (center) => {
-        setEditingCenter(center);
-        setName(center.name);
-        setAddress(center.address);
-        setPhoneNumber(center.phone_number);
-        setServices(center.services);
-        setCountry(getCountryByCoordinates(center.latitude, center.longitude));
-    };
-
-    const updateCenter = async () => {
-        const updatedCenter = {
-            name,
-            address,
-            phone_number: phoneNumber,
-            services,
-            latitude: countries[country][0],
-            longitude: countries[country][1]
         };
-        try {
-            await axios.put(`http://localhost:8000/health_centers/${editingCenter.id}`, updatedCenter);
-            fetchCenters();
-            clearForm();
-        } catch (error) {
-            console.error("Error updating health center:", error);
-        }
-    };
-
-    return (
-        <div className="health-centers-container">
-            <div className="form-container">
-                <h2>{editingCenter ? 'Edit Health Center' : 'Add New Health Center'}</h2>
-                
-                {/* Campos del formulario */}
-                <label>Enter Name</label>
-                <input
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                
-                <label>Enter Address</label>
-                <input
-                    type="text"
-                    placeholder="Address"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                />
-                
-                <label>Enter Phone Number</label>
-                <input
-                    type="text"
-                    placeholder="Phone Number"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-                
-                <label>Select Service</label>
-                <select
-                    value={services}
-                    onChange={(e) => setServices(e.target.value)}
-                >
-                    <option value="">Select Services</option>
-                    {servicesOptions.map((service, index) => (
-                        <option key={index} value={service}>{service}</option>
-                    ))}
-                </select>
-                
-                <label>Select Country</label>
-                <select
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
-                >
-                    <option value="">Select Country</option>
-                    {Object.keys(countries).map((countryName, index) => (
-                        <option key={index} value={countryName}>{countryName}</option>
-                    ))}
-                </select>
-                
-                <div className="button-group">
-                    {editingCenter && (
-                        <button className="cancel-button" onClick={clearForm}>
-                            Cancel
+    
+        return (
+            <div className="health-centers-container">
+                <div className="form-container">
+                    <h2>{editingCenter ? 'Edit Health Center' : 'Add New Health Center'}</h2>
+                    
+                    {/* Campos del formulario */}
+                    <label>Enter Name</label>
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    
+                    <label>Enter Address</label>
+                    <input
+                        type="text"
+                        placeholder="Address"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                    />
+                    
+                    <label>Enter Phone Number</label>
+                    <PhoneInput
+                        country={'us'}
+                        value={phoneNumber}
+                        onChange={(phone) => setPhoneNumber(phone)}
+                        inputProps={{
+                            name: 'phone',
+                            required: true,
+                            autoFocus: true
+                        }}
+                    />
+                    
+                    <label>Select Service</label>
+                    <select
+                        value={services}
+                        onChange={(e) => setServices(e.target.value)}
+                    >
+                        <option value="">Select Services</option>
+                        {servicesOptions.map((service, index) => (
+                            <option key={index} value={service}>{service}</option>
+                        ))}
+                    </select>
+                    
+                    <label>Select Country</label>
+                    <select
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
+                    >
+                        <option value="">Select Country</option>
+                        {Object.keys(countries).map((countryName, index) => (
+                            <option key={index} value={countryName}>{countryName}</option>
+                        ))}
+                    </select>
+                    
+                    <div className="button-group">
+                        {editingCenter && (
+                            <button className="cancel-button" onClick={clearForm}>
+                                Cancel
+                            </button>
+                        )}
+                        <button className={editingCenter ? "update-button" : "add-button"} onClick={editingCenter ? updateCenter : addCenter}>
+                            {editingCenter ? 'Update Center' : 'Add Center'}
                         </button>
-                    )}
-                    <button className={editingCenter ? "update-button" : "add-button"} onClick={editingCenter ? updateCenter : addCenter}>
-                        {editingCenter ? 'Update Center' : 'Add Center'}
-                    </button>
+                    </div>
+                </div>
+    
+                <div className="list-container">
+                    <h2>Existing Health Centers</h2>
+                    <ul>
+                        {centers.map(center => (
+                            <li key={center.id}>
+                                <p><strong>{center.name}</strong> - {center.address}</p>
+                                <p>Phone: {center.phone_number}</p>
+                                <p>Services: {center.services}</p>
+                                <p>Country: {getCountryByCoordinates(center.latitude, center.longitude)}</p>
+                                <button className="edit-button" onClick={() => editCenter(center)}>Edit</button>
+                                <button className="delete-button" onClick={() => deleteCenter(center.id)}>Delete</button>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
-
-            <div className="list-container">
-                <h2>Existing Health Centers</h2>
-                <ul>
-                    {centers.map(center => (
-                        <li key={center.id}>
-                            <p><strong>{center.name}</strong> - {center.address}</p>
-                            <p>Phone: {center.phone_number}</p>
-                            <p>Services: {center.services}</p>
-                            <p>Country: {getCountryByCoordinates(center.latitude, center.longitude)}</p>
-                            <button className="edit-button" onClick={() => editCenter(center)}>Edit</button>
-                            <button className="delete-button" onClick={() => deleteCenter(center.id)}>Delete</button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    );
-};
-
-export default HealthCenters;
+        );
+    };
+    
+    export default HealthCenters;
