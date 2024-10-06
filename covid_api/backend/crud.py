@@ -2,7 +2,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 import models, schemas
 from repositories import HealthCenterRepository, CovidDataRepository
+from line_profiler import profile
 
+@profile
 # Función para obtener datos de COVID por país
 def get_covid_data_by_country(db: Session, country: str):
     # Agrupa y suma los valores por país
@@ -26,6 +28,7 @@ def get_covid_data_by_country(db: Session, country: str):
     return None
 
 # Función para obtener datos para el mapa de calor
+@profile
 def get_heatmap_data(db: Session):
     data = db.query(
         models.CovidData.country,
@@ -49,15 +52,18 @@ def get_heatmap_data(db: Session):
     return []
 
 # Funciones CRUD para HealthCenter
+@profile
 def create_health_center(db: Session, health_center: schemas.HealthCenterCreate):
     repo = HealthCenterRepository(db)
     db_center = models.HealthCenter(**health_center.dict())
     return repo.add(db_center)
 
+@profile
 def get_health_centers(db: Session, skip: int = 0, limit: int = 10):
     repo = HealthCenterRepository(db)
     return repo.get_all(models.HealthCenter, skip, limit)
 
+@profile
 def update_health_center(db: Session, center_id: int, updated_data: schemas.HealthCenterUpdate):
     repo = HealthCenterRepository(db)
     center = repo.get(models.HealthCenter, center_id)
@@ -72,6 +78,7 @@ def update_health_center(db: Session, center_id: int, updated_data: schemas.Heal
     
     return repo.update(center)
 
+@profile
 def delete_health_center(db: Session, center_id: int):
     repo = HealthCenterRepository(db)
     center = repo.get(models.HealthCenter, center_id)
