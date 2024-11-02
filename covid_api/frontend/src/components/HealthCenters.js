@@ -3,6 +3,7 @@ import axios from 'axios';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import './HealthCenters.css';
+import './Pagination.css';
 
 const servicesOptions = [
     'COVID-19 Testing',
@@ -261,6 +262,7 @@ const countries = {
         return 'Unknown';
     };
     
+    
     const HealthCenters = () => {
         const [centers, setCenters] = useState([]);
         const [name, setName] = useState('');
@@ -269,20 +271,63 @@ const countries = {
         const [services, setServices] = useState('');
         const [country, setCountry] = useState('');
         const [editingCenter, setEditingCenter] = useState(null);
-    
+        const [page, setPage] = useState(1);
+        const [totalPages, setTotalPages] = useState(1);
+        const itemsPerPage = 10;
+        
         useEffect(() => {
             fetchCenters();
-        }, []);
+        }, [page]);
     
         const fetchCenters = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/health_centers/');
-                setCenters(response.data);
+                const response = await axios.get(`http://localhost:8000/health_centers/`, {
+                    params: {
+                        skip: (page - 1) * itemsPerPage,
+                        limit: itemsPerPage,
+                    },
+                });
+        
+                if (response.data && Array.isArray(response.data.centers)) {
+                    setCenters(response.data.centers);
+                    setTotalPages(Math.ceil(response.data.total / itemsPerPage));  // Ajuste total de páginas
+                } else {
+                    console.error("Unexpected response structure:", response.data);
+                }
             } catch (error) {
                 console.error("Error fetching health centers:", error);
             }
         };
+        
+        const changePage = (newPage) => {
+            if (newPage >= 1 && newPage <= totalPages) {
+                setPage(newPage);  // Cambia la página solo si está dentro del rango
+            }
+        };
     
+        const renderPagination = () => {
+            const paginationItems = [];
+            const range = 2; // Número de páginas a mostrar alrededor de la página actual
+    
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= page - range && i <= page + range)) {
+                    paginationItems.push(
+                        <button
+                            key={i}
+                            className={i === page ? "current-page" : ""}
+                            onClick={() => changePage(i)}
+                        >
+                            {i}
+                        </button>
+                    );
+                } else if ((i === page - range - 1 || i === page + range + 1) && totalPages > 2 * range + 5) {
+                    paginationItems.push(<span key={i} className="page-dots">...</span>);
+                }
+            }
+    
+            return paginationItems;
+        };
+
         const addCenter = async () => {
             if (name && address && phoneNumber && services && country) {
                 const newCenter = {
@@ -356,7 +401,6 @@ const countries = {
                 <div className="form-container">
                     <h2>{editingCenter ? 'Edit Health Center' : 'Add New Health Center'}</h2>
                     
-                    {/* Campos del formulario */}
                     <label>Enter Name</label>
                     <input
                         type="text"
@@ -427,12 +471,17 @@ const countries = {
                                 <p><strong>{center.name}</strong> - {center.address}</p>
                                 <p>Phone: {center.phone_number}</p>
                                 <p>Services: {center.services}</p>
-                                <p>Country: {getCountryByCoordinates(center.latitude, center.longitude)}</p>
+                                <p>Country: {center.country}</p>
                                 <button className="edit-button" onClick={() => editCenter(center)}>Edit</button>
                                 <button className="delete-button" onClick={() => deleteCenter(center.id)}>Delete</button>
                             </li>
                         ))}
                     </ul>
+                    <div className="pagination">
+                    <button onClick={() => changePage(page - 1)} disabled={page === 1}>Previous</button>
+                    <span>Page {page} of {totalPages}</span>
+                    <button onClick={() => changePage(page + 1)} disabled={page >= totalPages}>Next</button>
+                     </div>
                 </div>
             </div>
         );

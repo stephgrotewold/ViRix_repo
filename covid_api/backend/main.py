@@ -2,10 +2,12 @@ from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 import models, schemas, crud
-from database import SessionLocal, engine
+from database import SessionLocal, engine, get_db
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List
+from typing import List, Optional
 from line_profiler import profile
+from models import HealthCenter
+
 
 # Crear las tablas en la base de datos
 models.Base.metadata.create_all(bind=engine)
@@ -60,10 +62,11 @@ def create_health_center(health_center: schemas.HealthCenterCreate, db: Session 
 
 @profile
 # Ruta para obtener una lista de centros de salud
-@app.get("/health_centers/", response_model=List[schemas.HealthCenter])
+@app.get("/health_centers/")
 def get_health_centers(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    centers = crud.get_health_centers(db, skip=skip, limit=limit)
-    return centers
+    total_centers = db.query(HealthCenter).count()  # Total de registros sin paginación
+    centers = db.query(HealthCenter).offset(skip).limit(limit).all()  # Registros paginados
+    return {"centers": centers, "total": total_centers}  # Incluye el total en la respuesta
 
 @profile
 @app.put("/health_centers/{center_id}", response_model=schemas.HealthCenterBase)

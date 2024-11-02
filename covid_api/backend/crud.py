@@ -3,6 +3,7 @@ from sqlalchemy import func
 import models, schemas
 from repositories import HealthCenterRepository, CovidDataRepository
 from line_profiler import profile
+from typing import Optional
 
 @profile
 # Función para obtener datos de COVID por país
@@ -59,9 +60,15 @@ def create_health_center(db: Session, health_center: schemas.HealthCenterCreate)
     return repo.add(db_center)
 
 @profile
-def get_health_centers(db: Session, skip: int = 0, limit: int = 10):
-    repo = HealthCenterRepository(db)
-    return repo.get_all(models.HealthCenter, skip, limit)
+def get_health_centers(db: Session, skip: int = 0, limit: int = 10, services: Optional[str] = None):
+    query = db.query(models.HealthCenter)
+    
+    # Aplicar el filtro de servicios si se proporciona
+    if services:
+        query = query.filter(models.HealthCenter.services == services)
+    
+    # Paginación
+    return query.offset(skip).limit(limit).all()
 
 @profile
 def update_health_center(db: Session, center_id: int, updated_data: schemas.HealthCenterUpdate):
