@@ -1,16 +1,22 @@
 from sqlalchemy.orm import Session
 from models import HealthCenter, CovidData
 from sqlalchemy import func
+from sqlalchemy.exc import SQLAlchemyError
+
 
 class BaseRepository:
     def __init__(self, db: Session):
         self.db = db
 
     def add(self, entity):
-        self.db.add(entity)
-        self.db.commit()
-        self.db.refresh(entity)
-        return entity
+        try:
+            self.db.add(entity)
+            self.db.commit()
+            self.db.refresh(entity)
+            return entity
+        except SQLAlchemyError as e:
+            self.db.rollback()
+            raise e
 
     def get(self, model, id: int):
         return self.db.query(model).filter(model.id == id).first()
@@ -19,13 +25,22 @@ class BaseRepository:
         return self.db.query(model).offset(skip).limit(limit).all()
 
     def update(self, entity):
-        self.db.commit()
-        self.db.refresh(entity)
-        return entity
+        try:
+            self.db.commit()
+            self.db.refresh(entity)
+            return entity
+        except SQLAlchemyError as e:
+            self.db.rollback()
+            raise e
 
     def delete(self, entity):
-        self.db.delete(entity)
-        self.db.commit()
+        try:
+            self.db.delete(entity)
+            self.db.commit()
+        except SQLAlchemyError as e:
+            self.db.rollback()
+            raise e
+
 
 class HealthCenterRepository(BaseRepository):
     def __init__(self, db: Session):
@@ -33,6 +48,13 @@ class HealthCenterRepository(BaseRepository):
 
     def get_by_name(self, name: str):
         return self.db.query(HealthCenter).filter(HealthCenter.name == name).first()
+
+    def get_with_filter(self, services: str = None, skip: int = 0, limit: int = 10):
+        query = self.db.query(HealthCenter)
+        if services:
+            query = query.filter(HealthCenter.services == services)
+        return query.offset(skip).limit(limit).all()
+
 
 class CovidDataRepository(BaseRepository):
     def __init__(self, db: Session):

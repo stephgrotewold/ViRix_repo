@@ -1,98 +1,70 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import func
-import models, schemas
+from typing import Optional  # Agregar esta línea para importar Optional
 from repositories import HealthCenterRepository, CovidDataRepository
-from line_profiler import profile
-from typing import Optional
+import schemas
+from models import HealthCenter
 
-@profile
+
 # Función para obtener datos de COVID por país
 def get_covid_data_by_country(db: Session, country: str):
-    # Agrupa y suma los valores por país
-    data = db.query(
-        models.CovidData.country,
-        func.sum(models.CovidData.new_cases).label('new_cases'),
-        func.sum(models.CovidData.cumulative_cases).label('cumulative_cases'),
-        func.sum(models.CovidData.new_deaths).label('new_deaths'),
-        func.sum(models.CovidData.cumulative_deaths).label('cumulative_deaths')
-    ).filter(models.CovidData.country == country).group_by(models.CovidData.country).first()
-
+    repo = CovidDataRepository(db)
+    data = repo.get_by_country(country)
     if data:
-        # Reemplaza los valores nulos (None) por 0
         return {
             'country': data.country,
-            'new_cases': data.new_cases if data.new_cases is not None else 0,
-            'cumulative_cases': data.cumulative_cases if data.cumulative_cases is not None else 0,
-            'new_deaths': data.new_deaths if data.new_deaths is not None else 0,
-            'cumulative_deaths': data.cumulative_deaths if data.cumulative_deaths is not None else 0,
+            'new_cases': data.new_cases or 0,
+            'cumulative_cases': data.cumulative_cases or 0,
+            'new_deaths': data.new_deaths or 0,
+            'cumulative_deaths': data.cumulative_deaths or 0,
         }
     return None
 
-# Función para obtener datos para el mapa de calor
-@profile
-def get_heatmap_data(db: Session):
-    data = db.query(
-        models.CovidData.country,
-        func.sum(models.CovidData.cumulative_cases).label('cumulative_cases'),
-        func.sum(models.CovidData.cumulative_deaths).label('cumulative_deaths'),
-        func.sum(models.CovidData.new_cases).label('new_cases'),
-        func.sum(models.CovidData.new_deaths).label('new_deaths')
-    ).group_by(models.CovidData.country).all()
 
-    if data:
-        return [
-            {
-                'country': item.country,
-                'cumulative_cases': item.cumulative_cases if item.cumulative_cases is not None else 0,
-                'cumulative_deaths': item.cumulative_deaths if item.cumulative_deaths is not None else 0,
-                'new_cases': item.new_cases if item.new_cases is not None else 0,
-                'new_deaths': item.new_deaths if item.new_deaths is not None else 0,
-            }
-            for item in data
-        ]
-    return []
+# Función para obtener datos para el mapa de calor
+def get_heatmap_data(db: Session):
+    repo = CovidDataRepository(db)
+    data = repo.get_heatmap_data()
+    return [
+        {
+            'country': item.country,
+            'cumulative_cases': item.cumulative_cases or 0,
+            'cumulative_deaths': item.cumulative_deaths or 0,
+            'new_cases': item.new_cases or 0,
+            'new_deaths': item.new_deaths or 0,
+        }
+        for item in data
+    ]
+
 
 # Funciones CRUD para HealthCenter
-@profile
 def create_health_center(db: Session, health_center: schemas.HealthCenterCreate):
     repo = HealthCenterRepository(db)
-    db_center = models.HealthCenter(**health_center.dict())
+    db_center = HealthCenter(**health_center.dict())
     return repo.add(db_center)
 
-@profile
-def get_health_centers(db: Session, skip: int = 0, limit: int = 10, services: Optional[str] = None):
-    query = db.query(models.HealthCenter)
-    
-    # Aplicar el filtro de servicios si se proporciona
-    if services:
-        query = query.filter(models.HealthCenter.services == services)
-    
-    # Paginación
-    return query.offset(skip).limit(limit).all()
 
-@profile
+def get_health_centers(db: Session, skip: int = 0, limit: int = 10, services: Optional[str] = None):
+    repo = HealthCenterRepository(db)
+    return repo.get_with_filter(services=services, skip=skip, limit=limit)
+
+
 def update_health_center(db: Session, center_id: int, updated_data: schemas.HealthCenterUpdate):
     repo = HealthCenterRepository(db)
-    center = repo.get(models.HealthCenter, center_id)
-    
-    # Comprobación para asegurarse de que el centro existe
+    center = repo.get(HealthCenter, center_id)
     if not center:
         return None
-    
-    # Actualización de los campos disponibles
+
     for key, value in updated_data.dict(exclude_unset=True).items():
         setattr(center, key, value)
-    
+
     return repo.update(center)
 
-@profile
+
 def delete_health_center(db: Session, center_id: int):
     repo = HealthCenterRepository(db)
-    center = repo.get(models.HealthCenter, center_id)
-    
-    # Comprobación para asegurarse de que el centro existe
+    center = repo.get(HealthCenter, center_id)
     if not center:
         return False
-    
+
     repo.delete(center)
     return True

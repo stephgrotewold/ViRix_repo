@@ -287,10 +287,16 @@ const countries = {
                         limit: itemsPerPage,
                     },
                 });
-        
+    
                 if (response.data && Array.isArray(response.data.centers)) {
-                    setCenters(response.data.centers);
-                    setTotalPages(Math.ceil(response.data.total / itemsPerPage));  // Ajuste total de páginas
+                    // Asignar el país a cada centro según latitud y longitud
+                    const centersWithCountry = response.data.centers.map(center => ({
+                        ...center,
+                        country: getCountryByCoordinates(center.latitude, center.longitude)
+                    }));
+                    
+                    setCenters(centersWithCountry);
+                    setTotalPages(Math.ceil(response.data.total / itemsPerPage));
                 } else {
                     console.error("Unexpected response structure:", response.data);
                 }
@@ -338,9 +344,11 @@ const countries = {
                     latitude: countries[country][0],
                     longitude: countries[country][1]
                 };
-    
+                console.log("Adding center:", newCenter); // Registro de datos
+        
                 try {
-                    await axios.post('http://localhost:8000/health_centers/', newCenter);
+                    const response = await axios.post('http://localhost:8000/health_centers/', newCenter);
+                    console.log("Response:", response.data); // Registro de respuesta
                     fetchCenters();
                     clearForm();
                 } catch (error) {
