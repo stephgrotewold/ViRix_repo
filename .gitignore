@@ -8,3 +8,4 @@ node_modules/
 
 # Ignorar archivos .pyc
 *.pyc
+*.pyc
