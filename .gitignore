@@ -10,3 +10,6 @@ node_modules/
 *.pyc
 *.pyc
 /covid_api/backend/__pycache__
+/virix/lib/python3.12/site-packages
+/virix/lib
+*.pyc
