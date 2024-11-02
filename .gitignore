@@ -9,3 +9,4 @@ node_modules/
 # Ignorar archivos .pyc
 *.pyc
 *.pyc
+/covid_api/backend/__pycache__
