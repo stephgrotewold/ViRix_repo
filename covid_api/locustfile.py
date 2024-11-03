@@ -1,70 +1,50 @@
 from locust import HttpUser, task, between
+import json
 import random
 
-class HealthCenterTestUser(HttpUser):
+class VirixAPIUser(HttpUser):
     wait_time = between(1, 3)
-    existing_ids = [22209, 22216, 22218, 22226, 22232, 22237, 22240, 22244, 22250]  # Sample IDs for PUT and other tasks
 
-    @task
-    def get_health_centers(self):
-        response = self.client.get("/health_centers/")
-        if response.status_code == 200:
-            print("GET /health_centers/ completed successfully")
-        else:
-            print(f"GET /health_centers/ failed with status {response.status_code}")
-
-    @task
-    def create_health_center(self):
-        payload = {
-            "name": "Nuevo Centro",
-            "address": "Testing Address",
-            "phone_number": "123456789",
-            "services": "Respiratory Care",
-            "latitude": 47.5162,
-            "longitude": 14.5501
-        }
-        response = self.client.post("/health_centers/", json=payload)
-        if response.status_code == 201:
-            new_id = response.json().get("id")
-            print(f"POST /health_centers/ created with ID {new_id}")
-            if new_id:
-                self.existing_ids.append(new_id)
-        else:
-            print(f"POST /health_centers/ failed with status {response.status_code}")
-
-    @task
-    def update_health_center(self):
-        if not self.existing_ids:
-            print("No available IDs to update")
-            return
-
-        update_id = random.choice(list(self.existing_ids))
-        payload = {
-            "name": "Updated Center",
-            "address": "Updated Address",
-            "phone_number": "987654321",
-            "services": "Updated Services",
+    def on_start(self):
+        self.health_center_id = None
+        self.test_center = {
+            "name": "TEST Health Center",
+            "address": "123 F Street",
+            "phone_number": "+1234567890",
+            "services": "COVID-19 Testing",
             "latitude": 40.7128,
-            "longitude": -74.006
+            "longitude": -74.0060
         }
-        response = self.client.put(f"/health_centers/{update_id}", json=payload)
-        if response.status_code == 200:
-            print(f"PUT /health_centers/{update_id} updated successfully")
-        elif response.status_code == 404:
-            print(f"ID {update_id} not found for update")
-            self.existing_ids.remove(update_id)
-        else:
-            print(f"PUT /health_centers/{update_id} failed with status {response.status_code}")
 
-    @task
+    @task(3)
     def get_heatmap_data(self):
-        response = self.client.get("/heatmap-data")
-        if response.status_code != 200:
-            print(f"GET /heatmap-data failed with status {response.status_code}")
+        """Test the heatmap endpoint - highest priority"""
+        self.client.get("/heatmap-data")
 
-    @task
-    def get_covid_data_by_country(self):
-        country = "Brazil"
-        response = self.client.get(f"/covid-data?location={country}")
-        if response.status_code != 200:
-            print(f"GET /covid-data for {country} failed with status {response.status_code}")
+    @task(2)
+    def get_health_centers(self):
+        """Test getting health centers list"""
+        self.client.get("/health_centers/")
+
+    @task(1)
+    def crud_health_centers(self):
+        """Test CRUD operations for health centers"""
+        # Create
+        with self.client.post("/health_centers/", 
+                            json=self.test_center,
+                            catch_response=True) as response:
+            if response.status_code == 200:
+                self.health_center_id = response.json().get("_id")
+                response.success()
+            else:
+                response.failure(f"Failed to create health center: {response.text}")
+
+        if self.health_center_id:
+            # Update
+            updated_data = self.test_center.copy()
+            updated_data["name"] = f"Updated Center {random.randint(1, 1000)}"
+            self.client.put(f"/health_centers/{self.health_center_id}", 
+                          json=updated_data)
+
+            # Delete
+            self.client.delete(f"/health_centers/{self.health_center_id}")

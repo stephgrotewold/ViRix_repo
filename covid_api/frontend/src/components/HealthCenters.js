@@ -410,8 +410,8 @@ const countries = {
         };
     
         const updateCenter = async () => {
-            if (!editingCenter || !editingCenter._id) {
-                console.error("No center selected for update");
+            if (!country || !countries[country]) {
+                console.error('País no válido o coordenadas no encontradas');
                 return;
             }
         
@@ -420,24 +420,24 @@ const countries = {
                 address,
                 phone_number: phoneNumber,
                 services,
-                latitude: countries[country][0],
-                longitude: countries[country][1]
+                latitude: countries[country] ? countries[country][0] : 0,
+                longitude: countries[country] ? countries[country][1] : 0
             };
         
             try {
                 const response = await axios.put(
-                    `http://localhost:8000/health_centers/${editingCenter._id}`,
+                    `http://localhost:8000/health_centers/${editingCenter._id}`, 
                     updatedCenter
                 );
                 
-                if (response.data) {
-                    console.log("Center updated successfully:", response.data);
-                    await fetchCenters(); // Recargar la lista
+                if (response.status === 200) {
+                    fetchCenters();
                     clearForm();
+                } else {
+                    console.error('Error al actualizar el centro:', response);
                 }
             } catch (error) {
                 console.error("Error updating health center:", error);
-                alert("Error updating health center. Please try again.");
             }
         };
     
