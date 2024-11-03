@@ -16,12 +16,12 @@ class HealthCenterTestUser(HttpUser):
     @task
     def create_health_center(self):
         payload = {
-            "name": "New Center",
-            "address": "Test Address",
+            "name": "Nuevo Centro",
+            "address": "Testing Address",
             "phone_number": "123456789",
-            "services": "Testing Services",
-            "latitude": 40.7128,
-            "longitude": -74.006
+            "services": "Respiratory Care",
+            "latitude": 47.5162,
+            "longitude": 14.5501
         }
         response = self.client.post("/health_centers/", json=payload)
         if response.status_code == 201:

@@ -287,18 +287,18 @@ const countries = {
                         limit: itemsPerPage,
                     },
                 });
-    
-                if (response.data && Array.isArray(response.data.centers)) {
-                    // Asignar el país a cada centro según latitud y longitud
+        
+                if (response.data && response.data.centers) {
                     const centersWithCountry = response.data.centers.map(center => ({
                         ...center,
+                        id: center._id,
                         country: getCountryByCoordinates(center.latitude, center.longitude)
                     }));
-                    
+        
                     setCenters(centersWithCountry);
                     setTotalPages(Math.ceil(response.data.total / itemsPerPage));
                 } else {
-                    console.error("Unexpected response structure:", response.data);
+                    console.error("Invalid response format:", response.data);
                 }
             } catch (error) {
                 console.error("Error fetching health centers:", error);
@@ -333,26 +333,41 @@ const countries = {
     
             return paginationItems;
         };
+    
+    
 
         const addCenter = async () => {
             if (name && address && phoneNumber && services && country) {
-                const newCenter = {
-                    name,
-                    address,
-                    phone_number: phoneNumber,
-                    services,
-                    latitude: countries[country][0],
-                    longitude: countries[country][1]
-                };
-                console.log("Adding center:", newCenter); // Registro de datos
-        
                 try {
-                    const response = await axios.post('http://localhost:8000/health_centers/', newCenter);
-                    console.log("Response:", response.data); // Registro de respuesta
-                    fetchCenters();
-                    clearForm();
+                    const newCenter = {
+                        name: name.trim(),
+                        address: address.trim(),
+                        phone_number: phoneNumber.trim(),
+                        services: services.trim(),
+                        latitude: countries[country][0],
+                        longitude: countries[country][1]
+                    };
+        
+                    console.log("Sending data:", newCenter); // Para depuración
+        
+                    const response = await axios.post(
+                        'http://localhost:8000/health_centers/',
+                        newCenter,
+                        {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                    );
+        
+                    if (response.data) {
+                        console.log("Center created successfully:", response.data);
+                        await fetchCenters();
+                        clearForm();
+                    }
                 } catch (error) {
-                    console.error("Error adding health center:", error);
+                    console.error("Error creating health center:", error);
+                    alert(error.response?.data?.detail || 'Error creating health center');
                 }
             } else {
                 alert('Please fill out all fields before adding a health center');
@@ -371,7 +386,15 @@ const countries = {
         const deleteCenter = async (id) => {
             try {
                 await axios.delete(`http://localhost:8000/health_centers/${id}`);
-                fetchCenters();
+                // Update the centers list immediately after successful deletion
+                setCenters(centers.filter((center) => center._id !== id));
+                // If you're on a page that would be empty after deletion, go to previous page
+                if (centers.length === 1 && page > 1) {
+                    setPage(page - 1);
+                } else {
+                    // Otherwise, just refresh the current page
+                    fetchCenters();
+                }
             } catch (error) {
                 console.error("Error deleting health center:", error);
             }
@@ -387,6 +410,11 @@ const countries = {
         };
     
         const updateCenter = async () => {
+            if (!editingCenter || !editingCenter._id) {
+                console.error("No center selected for update");
+                return;
+            }
+        
             const updatedCenter = {
                 name,
                 address,
@@ -395,12 +423,21 @@ const countries = {
                 latitude: countries[country][0],
                 longitude: countries[country][1]
             };
+        
             try {
-                await axios.put(`http://localhost:8000/health_centers/${editingCenter.id}`, updatedCenter);
-                fetchCenters();
-                clearForm();
+                const response = await axios.put(
+                    `http://localhost:8000/health_centers/${editingCenter._id}`,
+                    updatedCenter
+                );
+                
+                if (response.data) {
+                    console.log("Center updated successfully:", response.data);
+                    await fetchCenters(); // Recargar la lista
+                    clearForm();
+                }
             } catch (error) {
                 console.error("Error updating health center:", error);
+                alert("Error updating health center. Please try again.");
             }
         };
     
@@ -474,14 +511,14 @@ const countries = {
                 <div className="list-container">
                     <h2>Existing Health Centers</h2>
                     <ul>
-                        {centers.map(center => (
-                            <li key={center.id}>
+                        {centers.map((center) => (
+                            <li key={center._id}> {/* Usa _id como clave única */}
                                 <p><strong>{center.name}</strong> - {center.address}</p>
                                 <p>Phone: {center.phone_number}</p>
                                 <p>Services: {center.services}</p>
                                 <p>Country: {center.country}</p>
                                 <button className="edit-button" onClick={() => editCenter(center)}>Edit</button>
-                                <button className="delete-button" onClick={() => deleteCenter(center.id)}>Delete</button>
+                                <button className="delete-button" onClick={() => deleteCenter(center._id)}>Delete</button>
                             </li>
                         ))}
                     </ul>
