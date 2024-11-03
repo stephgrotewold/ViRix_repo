@@ -61,6 +61,7 @@ class CovidData(BaseModel):
 
     class Config:
         from_attributes = True
+        populate_by_name = True
 
 class CovidDataList(BaseModel):
     data: List[CovidData]

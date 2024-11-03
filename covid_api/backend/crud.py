@@ -30,9 +30,26 @@ def get_covid_data_by_country(db: Collection, country: str):
     return None
 
 def get_heatmap_data(db: Collection) -> List[schemas.CovidData]:
-    repo = CovidDataRepository(db)
-    data = repo.get_heatmap_data()
-    return [schemas.CovidData(**item) for item in data]
+    try:
+        repo = CovidDataRepository(db)
+        data = repo.get_heatmap_data()
+        
+        # Convertir los datos al formato esperado
+        formatted_data = []
+        for item in data:
+            formatted_item = schemas.CovidData(
+                country=item["country"],
+                new_cases=int(item.get("new_cases", 0)),
+                cumulative_cases=int(item.get("cumulative_cases", 0)),
+                new_deaths=int(item.get("new_deaths", 0)),
+                cumulative_deaths=int(item.get("cumulative_deaths", 0))
+            )
+            formatted_data.append(formatted_item)
+        
+        return formatted_data
+    except Exception as e:
+        print(f"Error getting heatmap data: {e}")
+        return []
 
 def create_health_center(db, center: HealthCenterCreate):
     try:

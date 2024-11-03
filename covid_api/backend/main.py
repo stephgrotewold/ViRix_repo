@@ -130,20 +130,23 @@ def read_covid_data(
     return data
 
 @app.get("/heatmap-data")
-def get_heatmap_data(
-    db: Database = Depends(get_db)
-):
+def get_heatmap_data(db: Database = Depends(get_db)):
     try:
-        data = crud.get_heatmap_data(db["covid_data"])
+        collection = db["covid_data"]
+        data = crud.get_heatmap_data(collection)
+        
         if not data:
-            raise HTTPException(status_code=404, detail="Data not found")
+            print("No heatmap data found")
+            return []
+            
+        print(f"Returning {len(data)} records for heatmap")
         return data
     except Exception as e:
-        print(f"Error getting data: {e}")
-        raise HTTPException(status_code=500, detail="Internal Server Error")
-
-
-
+        print(f"Error in heatmap endpoint: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
 # # Crear las tablas en la base de datos
 # models.Base.metadata.create_all(bind=engine)
 

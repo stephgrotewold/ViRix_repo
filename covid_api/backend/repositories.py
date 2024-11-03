@@ -59,32 +59,36 @@ class HealthCenterRepository:
         return result.deleted_count > 0
 
 class CovidDataRepository(BaseRepository):
-    def get_by_country(self, country: str):
-        return self.db.find_one({"country": country})
-
     def get_heatmap_data(self):
-        pipeline = [
-            {
-                "$group": {
-                    "_id": "$country",
-                    "cumulative_cases": {"$sum": "$cumulative_cases"},
-                    "cumulative_deaths": {"$sum": "$cumulative_deaths"},
-                    "new_cases": {"$sum": "$new_cases"},
-                    "new_deaths": {"$sum": "$new_deaths"}
+        try:
+            pipeline = [
+                {
+                    "$group": {
+                        "_id": "$country",
+                        "new_cases": {"$sum": "$new_cases"},
+                        "cumulative_cases": {"$max": "$cumulative_cases"},
+                        "new_deaths": {"$sum": "$new_deaths"},
+                        "cumulative_deaths": {"$max": "$cumulative_deaths"}
+                    }
+                },
+                {
+                    "$project": {
+                        "_id": 0,
+                        "country": "$_id",
+                        "new_cases": {"$ifNull": ["$new_cases", 0]},
+                        "cumulative_cases": {"$ifNull": ["$cumulative_cases", 0]},
+                        "new_deaths": {"$ifNull": ["$new_deaths", 0]},
+                        "cumulative_deaths": {"$ifNull": ["$cumulative_deaths", 0]}
+                    }
                 }
-            },
-            {
-                "$project": {
-                    "country": "$_id",
-                    "cumulative_cases": 1,
-                    "cumulative_deaths": 1,
-                    "new_cases": 1,
-                    "new_deaths": 1,
-                    "_id": 0
-                }
-            }
-        ]
-        return list(self.db.aggregate(pipeline))
+            ]
+            result = list(self.collection.aggregate(pipeline))
+            print(f"Heatmap data retrieved: {len(result)} records")  # Debug log
+            return result
+        except Exception as e:
+            print(f"Error in get_heatmap_data: {e}")
+            return []
+  
 
 
 
