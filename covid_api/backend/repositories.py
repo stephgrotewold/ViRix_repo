@@ -65,31 +65,27 @@ class CovidDataRepository(BaseRepository):
                 {
                     "$group": {
                         "_id": "$country",
-                        "new_cases": {"$sum": "$new_cases"},
                         "cumulative_cases": {"$max": "$cumulative_cases"},
-                        "new_deaths": {"$sum": "$new_deaths"},
-                        "cumulative_deaths": {"$max": "$cumulative_deaths"}
+                        "cumulative_deaths": {"$max": "$cumulative_deaths"},
+                        "new_cases": {"$sum": "$new_cases"},
+                        "new_deaths": {"$sum": "$new_deaths"}
                     }
                 },
                 {
                     "$project": {
                         "_id": 0,
                         "country": "$_id",
-                        "new_cases": {"$ifNull": ["$new_cases", 0]},
                         "cumulative_cases": {"$ifNull": ["$cumulative_cases", 0]},
-                        "new_deaths": {"$ifNull": ["$new_deaths", 0]},
-                        "cumulative_deaths": {"$ifNull": ["$cumulative_deaths", 0]}
+                        "cumulative_deaths": {"$ifNull": ["$cumulative_deaths", 0]},
+                        "new_cases": {"$ifNull": ["$new_cases", 0]},
+                        "new_deaths": {"$ifNull": ["$new_deaths", 0]}
                     }
                 }
             ]
-            result = list(self.collection.aggregate(pipeline))
-            print(f"Heatmap data retrieved: {len(result)} records")  # Debug log
-            return result
+            return list(self.collection.aggregate(pipeline))
         except Exception as e:
             print(f"Error in get_heatmap_data: {e}")
             return []
-  
-
 
 
 # class BaseRepository:

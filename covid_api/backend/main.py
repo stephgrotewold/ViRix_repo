@@ -11,12 +11,13 @@ from typing import List, Optional
 from pymongo.database import Database
 from bson import ObjectId
 from config import get_database, get_collection
-import crud, models
+import crud, models, schemas
 from schemas import (
     HealthCenter,
     HealthCenterCreate,
     HealthCenterUpdate,
-    HealthCenterListResponse
+    HealthCenterListResponse,
+    CovidData
 )
 
 app = FastAPI()
@@ -118,16 +119,6 @@ async def delete_health_center(
             )
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
-
-@app.get("/covid-data")
-def read_covid_data(
-    location: str,
-    db: Database = Depends(get_db)
-):
-    data = crud.get_covid_data_by_country(db["covid_data"], country=location)
-    if data is None:
-        raise HTTPException(status_code=404, detail="Data not found")
-    return data
 
 @app.get("/heatmap-data")
 def get_heatmap_data(db: Database = Depends(get_db)):

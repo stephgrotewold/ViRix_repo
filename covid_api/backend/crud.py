@@ -22,12 +22,6 @@ def convert_objectid_to_str(data):
         return {key: str(value) if isinstance(value, ObjectId) else value for key, value in data.items()}
     return data
 
-def get_covid_data_by_country(db: Collection, country: str):
-    repo = CovidDataRepository(db)
-    data = repo.get_by_country(country)
-    if data:
-        return schemas.CovidData(**data)
-    return None
 
 def get_heatmap_data(db: Collection) -> List[schemas.CovidData]:
     try:

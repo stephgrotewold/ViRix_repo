@@ -60,8 +60,8 @@ class CovidData(BaseModel):
     risk_level: Optional[str] = "Low"
 
     class Config:
-        from_attributes = True
         populate_by_name = True
+        arbitrary_types_allowed = True
 
 class CovidDataList(BaseModel):
     data: List[CovidData]
