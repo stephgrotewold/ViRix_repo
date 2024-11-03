@@ -150,7 +150,7 @@ virtualenv==20.25.0
 watchfiles==0.24.0
 wcwidth==0.2.13
 websockets==13.0.1
-Werkzeug==3.0.1
+Werkzeug==3.0.6
 yappi==1.6.0
 zipp==3.17.0
 zope.event==5.0
