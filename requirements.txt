@@ -127,7 +127,7 @@ somoclu==1.7.6
 sompy==0.1.1
 SQLAlchemy==2.0.32
 stack-data==0.6.3
-starlette==0.38.2
+starlette==0.40.0
 statsmodels==0.14.1
 streamlit==1.37.0
 tenacity==8.2.3
