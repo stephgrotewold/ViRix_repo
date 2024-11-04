@@ -141,7 +141,7 @@ button.update-button:hover {
 
 /* Botón Add con espacio */
 button.add-button {
-    background-color: #28a745;
+    background-color: #007bff;
     border-radius: 25px; /* Botón redondeado */
     margin-top: 25px; /* Espacio adicional sobre el botón */
 }
