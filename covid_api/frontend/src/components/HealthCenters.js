@@ -271,24 +271,32 @@ const countries = {
         const [services, setServices] = useState('');
         const [country, setCountry] = useState('');
         const [editingCenter, setEditingCenter] = useState(null);
+        const [countryFilter, setCountryFilter] = useState('');
+        const [serviceFilter, setServiceFilter] = useState('');
         const [page, setPage] = useState(1);
         const [totalPages, setTotalPages] = useState(1);
         const itemsPerPage = 10;
         
         useEffect(() => {
             fetchCenters();
-        }, [page]);
+        }, [page, countryFilter, serviceFilter]);
     
         const fetchCenters = async () => {
             try {
+                const params = {
+                    skip: (page - 1) * itemsPerPage,
+                    limit: itemsPerPage
+                };
+        
+                // Solo agregar los filtros si tienen valor
+                if (countryFilter) params.country = countryFilter;
+                if (serviceFilter) params.services = serviceFilter;
+        
                 const response = await axios.get(`http://localhost:8000/health_centers/`, {
-                    params: {
-                        skip: (page - 1) * itemsPerPage,
-                        limit: itemsPerPage,
-                    },
+                    params: params
                 });
         
-                if (response.data && response.data.centers) {
+                if (response.data && Array.isArray(response.data.centers)) {
                     const centersWithCountry = response.data.centers.map(center => ({
                         ...center,
                         id: center._id,
@@ -297,13 +305,16 @@ const countries = {
         
                     setCenters(centersWithCountry);
                     setTotalPages(Math.ceil(response.data.total / itemsPerPage));
-                } else {
-                    console.error("Invalid response format:", response.data);
                 }
             } catch (error) {
                 console.error("Error fetching health centers:", error);
             }
         };
+        
+        // Actualiza useEffect para incluir los filtros
+        useEffect(() => {
+            fetchCenters();
+        }, [page, countryFilter, serviceFilter]);
         
         const changePage = (newPage) => {
             if (newPage >= 1 && newPage <= totalPages) {
@@ -507,26 +518,65 @@ const countries = {
                         </button>
                     </div>
                 </div>
-    
-                <div className="list-container">
-                    <h2>Existing Health Centers</h2>
-                    <ul>
-                        {centers.map((center) => (
-                            <li key={center._id}> {/* Usa _id como clave única */}
-                                <p><strong>{center.name}</strong> - {center.address}</p>
-                                <p>Phone: {center.phone_number}</p>
-                                <p>Services: {center.services}</p>
-                                <p>Country: {center.country}</p>
-                                <button className="edit-button" onClick={() => editCenter(center)}>Edit</button>
-                                <button className="delete-button" onClick={() => deleteCenter(center._id)}>Delete</button>
-                            </li>
-                        ))}
-                    </ul>
-                    <div className="pagination">
-                    <button onClick={() => changePage(page - 1)} disabled={page === 1}>Previous</button>
-                    <span>Page {page} of {totalPages}</span>
-                    <button onClick={() => changePage(page + 1)} disabled={page >= totalPages}>Next</button>
-                     </div>
+                
+                {/* Contenedor de filtros y lista de centros en una sola columna */}
+                <div className="existing-centers-container">
+                    <div className="filter-container">
+                        <h3>Filter Health Centers</h3>
+                        <div className="filter-item">
+                            <label>Filter by Country</label>
+                            <select
+                                value={countryFilter}
+                                onChange={(e) => {
+                                    setCountryFilter(e.target.value);
+                                    setPage(1); // Resetear la página al filtrar
+                                }}
+                            >
+                                <option value="">All Countries</option>
+                                {Object.keys(countries).map((countryName, index) => (
+                                    <option key={index} value={countryName}>{countryName}</option>
+                                ))}
+                            </select>
+                        </div>
+        
+                        <div className="filter-item">
+                            <label>Filter by Service</label>
+                            <select
+                                value={serviceFilter}
+                                onChange={(e) => {
+                                    setServiceFilter(e.target.value);
+                                    setPage(1); // Resetear la página al filtrar
+                                }}
+                            >
+                                <option value="">All Services</option>
+                                {servicesOptions.map((service, index) => (
+                                    <option key={index} value={service}>{service}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    {/* Lista de centros de salud */}
+                    <div className="list-container">
+                        <h2>Existing Health Centers</h2>
+                        <ul>
+                            {centers.map((center) => (
+                                <li key={center._id}> {/* Usa _id como clave única */}
+                                    <p><strong>{center.name}</strong> - {center.address}</p>
+                                    <p>Phone: {center.phone_number}</p>
+                                    <p>Services: {center.services}</p>
+                                    <p>Country: {center.country}</p>
+                                    <button className="edit-button" onClick={() => editCenter(center)}>Edit</button>
+                                    <button className="delete-button" onClick={() => deleteCenter(center._id)}>Delete</button>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="pagination">
+                            <button onClick={() => changePage(page - 1)} disabled={page === 1}>Previous</button>
+                            <span>Page {page} of {totalPages}</span>
+                            <button onClick={() => changePage(page + 1)} disabled={page >= totalPages}>Next</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

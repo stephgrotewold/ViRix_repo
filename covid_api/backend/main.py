@@ -7,11 +7,13 @@
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
 from typing import List, Optional
 from pymongo.database import Database
 from bson import ObjectId
 from config import get_database, get_collection
 import crud, models, schemas
+from constants import countries
 from schemas import (
     HealthCenter,
     HealthCenterCreate,
@@ -36,17 +38,61 @@ app.add_middleware(
 def get_db():
     return db
 
+# @app.get("/health_centers/")
+# def get_health_centers(
+#     skip: int = 0,
+#     limit: int = 100,
+#     db: Database = Depends(get_database)
+# ):
+#     try:
+#         result = crud.get_health_centers(skip=skip, limit=limit)
+#         return result
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+
+def convert_objectid(item):
+    if isinstance(item, dict):
+        for key, value in item.items():
+            if isinstance(value, ObjectId):
+                item[key] = str(value)
+            elif isinstance(value, dict):
+                convert_objectid(value)
+            elif isinstance(value, list):
+                for i in value:
+                    if isinstance(i, dict):
+                        convert_objectid(i)
+    return item
+
 @app.get("/health_centers/")
 def get_health_centers(
     skip: int = 0,
     limit: int = 100,
+    country: Optional[str] = None,
+    services: Optional[str] = None,
     db: Database = Depends(get_database)
 ):
+    query = {}
+    
+    if country and country != "":
+        # Buscar por coordenadas del país
+        coords = countries.get(country)
+        if coords:
+            query["latitude"] = coords[0]
+            query["longitude"] = coords[1]
+    
+    if services and services != "":
+        query["services"] = services
+
     try:
-        result = crud.get_health_centers(skip=skip, limit=limit)
-        return result
+        centers = list(db["health_centers"].find(query).skip(skip).limit(limit))
+        # Convertir ObjectId a string
+        centers = [convert_objectid(center) for center in centers]
+        total = db["health_centers"].count_documents(query)
+        return {"centers": centers, "total": total}
     except Exception as e:
+        print(f"Error: {str(e)}")  # Para depuración
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.post("/health_centers/")
 async def create_health_center(

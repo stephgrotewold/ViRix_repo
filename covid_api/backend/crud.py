@@ -11,7 +11,7 @@ from models import HealthCenter, CovidData
 from config import get_collection, get_database
 from database import db
 from schemas import HealthCenterCreate , HealthCenterUpdate # Asegúrate de que esta línea esté presente # Asegúrate de que esta línea esté presente
-
+from constants import countries
 
 # Helper function to convert MongoDB documents to Pydantic-compatible format
 def convert_objectid_to_str(data):
@@ -70,21 +70,37 @@ def create_health_center(db, center: HealthCenterCreate):
         return None
 
 
-def get_health_centers(skip: int = 0, limit: int = 100):
+# def get_health_centers(skip: int = 0, limit: int = 100):
+#     collection = get_collection("health_centers")
+#     # Get total count first
+#     total = collection.count_documents({})
+    
+#     # Get paginated results and convert ObjectId to string
+#     centers = list(collection.find().skip(skip).limit(limit))
+#     for center in centers:
+#         if '_id' in center:
+#             center['_id'] = str(center['_id'])
+    
+#     return {
+#         "centers": centers,
+#         "total": total
+#     }
+
+def get_health_centers(skip: int = 0, limit: int = 100, country: Optional[str] = None, services: Optional[str] = None):
     collection = get_collection("health_centers")
-    # Get total count first
-    total = collection.count_documents({})
+    query = {}
     
-    # Get paginated results and convert ObjectId to string
-    centers = list(collection.find().skip(skip).limit(limit))
-    for center in centers:
-        if '_id' in center:
-            center['_id'] = str(center['_id'])
+    if country and country != "":
+        coords = countries.get(country)
+        if coords:
+            query["latitude"] = coords[0]
+            query["longitude"] = coords[1]
     
-    return {
-        "centers": centers,
-        "total": total
-    }
+    if services and services != "":
+        query["services"] = services
+
+    centers = list(collection.find(query).skip(skip).limit(limit))
+    return centers
 
 def update_health_center(db, center_id: str, center_update: dict):
     try:
