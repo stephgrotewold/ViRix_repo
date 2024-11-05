@@ -8,6 +8,7 @@
   margin: 20px 0;
   color: #333; /* Cambiar el color del texto para que sea visible sobre la imagen */
   text-align: center; /* Centrar el texto */
+  /* margin-top: 90px; */
   margin-top: 90px;
 }
 
@@ -115,8 +116,11 @@
   color: white;
   text-align: center;
   padding: 10px;
-  position: fixed;
+  /* position: fixed; */
+
   width: 100%;
-  bottom: 0;
+  /* bottom: 0; */
   left: 0;
+  position: relative; /* o static */
+  bottom: auto;
 }

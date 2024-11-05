@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import CovidStats from './components/CovidStats';
+import Inicio from './components/Inicio';
 import { slide as Menu } from 'react-burger-menu';
 import logo from './components/logo/logo-horizontal.png';
 import Footer from './components/Footer';
@@ -69,8 +69,8 @@ function App() {
                 </header>
                 <main>
                     <Routes>
-                        <Route path="/inicio" element={<CovidStats />} />
-                        <Route path="/" element={<CovidStats />} />
+                        <Route path="/inicio" element={<Inicio />} />
+                        <Route path="/" element={<Inicio />} />
                         <Route path="/info" element={<Info />} />
                         <Route path="/tips" element={<Tips />} />
                         <Route path="/about" element={<AboutUs />} />

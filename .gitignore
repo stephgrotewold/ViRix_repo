@@ -2,6 +2,8 @@ node_modules/
 
 .DS_Store
 
+__pycache__/
+
 
 # Ignorar archivos .pack
 *.pack
