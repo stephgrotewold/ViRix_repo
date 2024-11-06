@@ -39,7 +39,7 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 
 #### Frontend
 
-1. Navega a la carpeta `frontend/src`.
+1. Navega a la carpeta `frontend`.
 2. Ejecuta `npm install` para instalar las dependencias.
 3. Usa `npm start` para iniciar la aplicación.
 
