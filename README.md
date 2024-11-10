@@ -36,15 +36,14 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 
 ### Instrucciones de Instalación
 
+1. En la raiz del proyecto instala las dependencias con:
+   ```bash
+   pip install -r requirements.txt
+   
 #### Backend
 
 1. Navega a la carpeta `backend`.
-2. Instala las dependencias con:
-
-   ```bash
-   pip install -r requirements.txt
-
-3. Inicia el backend con:
+2. Inicia el backend con:
    ```bash
    uvicorn main:app --reload
 
