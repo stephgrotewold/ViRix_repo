@@ -1,12 +1,13 @@
 # ViRix - COVID-19 Information and Tracking WebApp
 
-ViRix is a web application designed to provide up-to-date and accurate information about COVID-19, including prevention tips, news, and statistical data for countries around the world. The app includes interactive map visualizations and other useful information to help users stay informed about the pandemic.
+ViRix es una aplicación web diseñada para proporcionar información actualizada y precisa sobre COVID-19, incluyendo consejos de prevención, noticias y datos estadísticos de países de todo el mundo. La aplicación incluye visualizaciones interactivas de mapas y otra información útil como centros de salud por pais y los servicios que ofrecen para ayudar a los usuarios a mantenerse informados sobre la pandemia.
+
 
 # Documentación del Proyecto
 
 ## 1. Introducción
 
-Este proyecto está dividido en dos partes: un frontend desarrollado en **React** y un backend en **FastAPI**, incialmente con SQL y actualmente con MongoDB.
+Este proyecto está dividido en dos partes: un frontend desarrollado en **React** y un backend en **FastAPI**, incialmente con postgresql y actualmente con MongoDB.
 
 ## 2. Estructura del Proyecto
 
@@ -25,8 +26,6 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 - **constants.py**: Almacena constantes utilizadas en la aplicación.
 - **schemas.py**: Define los esquemas de datos para validación de entrada y salida.
 - **repositories.py** y **crud.py**: Contienen funciones para realizar operaciones CRUD (Create, Read, Update, Delete) sobre las entidades del sistema.
-- **profile_script.py**: Un script de profiling para medir y analizar el rendimiento.
-- **migration**: Scripts o configuraciones para manejar migraciones de base de datos.
 
 ## 3. Instalación y Configuración
 
@@ -51,10 +50,7 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
    ```bash
    pip install -r requirements.txt
 
-   Configura las variables de entorno en `config.py` o en un archivo `.env`.
-
-   Inicia el backend con:
-
+3. Inicia el backend con:
    ```bash
    uvicorn main:app --reload
 
@@ -73,10 +69,7 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 ### 5. Scripts Adicionales
 
 - **profile_script.py**: Herramienta para analizar el rendimiento de la aplicación, incluye cómo usarlo y ejemplos.
-
-### 6. Migraciones de Base de Datos
-
-Instrucciones para aplicar migraciones, incluyendo comandos y scripts en la carpeta `migration`.
+- **migration**: En esta carpeta se encuentran los scripts utilizados para migrar a mongoDB.
 
 ### API Integration
 
