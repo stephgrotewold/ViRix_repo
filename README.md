@@ -1,4 +1,4 @@
-# ViRix - COVID-19 Information and Tracking WebApp
+# ViRix
 
 ViRix es una aplicación web diseñada para proporcionar información actualizada y precisa sobre COVID-19, incluyendo consejos de prevención, noticias y datos estadísticos de países de todo el mundo. La aplicación incluye visualizaciones interactivas de mapas y otra información útil como centros de salud por pais y los servicios que ofrecen para ayudar a los usuarios a mantenerse informados sobre la pandemia.
 
