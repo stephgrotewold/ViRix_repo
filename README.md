@@ -7,7 +7,7 @@ ViRix es una aplicación web diseñada para proporcionar información actualizad
 
 ## 1. Introducción
 
-Este proyecto está dividido en dos partes: un frontend desarrollado en **React** y un backend en **FastAPI**, incialmente con postgresql y actualmente con MongoDB.
+Este proyecto está dividido en dos partes: un frontend desarrollado en **React** y un backend en **FastAPI**, incialmente con **postgresql** y actualmente con **MongoDB**.
 
 ## 2. Estructura del Proyecto
 
@@ -36,12 +36,6 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 
 ### Instrucciones de Instalación
 
-#### Frontend
-
-1. Navega a la carpeta `frontend`.
-2. Ejecuta `npm install` para instalar las dependencias.
-3. Usa `npm start` para iniciar la aplicación.
-
 #### Backend
 
 1. Navega a la carpeta `backend`.
@@ -53,6 +47,12 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 3. Inicia el backend con:
    ```bash
    uvicorn main:app --reload
+
+#### Frontend
+
+1. Navega a la carpeta `frontend`.
+2. Ejecuta `npm install` para instalar las dependencias.
+3. Usa `npm start` para iniciar la aplicación.
 
 ### 4. Funcionalidades Clave
 
@@ -70,13 +70,14 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 
 - **profile_script.py**: Herramienta para analizar el rendimiento de la aplicación, incluye cómo usarlo y ejemplos.
 - **migration**: En esta carpeta se encuentran los scripts utilizados para migrar a mongoDB.
+- **locustfile.py**: Estan los tasks que se utilizaron para realizar en LoadTesting.
 
 ### API Integration
 
-The project integrates with the following APIs to fetch real-time data and news:
+El proyecto se integra con las siguientes APIs para obtener datos en tiempo real y noticias:
 
-1. **News API**: Fetches the latest news articles related to COVID-19.
+1. **News API**: Obtiene los últimos artículos de noticias relacionados con COVID-19.
    - Endpoint: `https://newsapi.org/v2/everything?q=COVID-19`
 
-Ensure you have valid API keys for these services and update them in the project files.
+
 
