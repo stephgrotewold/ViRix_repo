@@ -65,6 +65,12 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 - **Operaciones CRUD**: Describe las funciones en `crud.py` y `repositories.py`.
 - **Conexión a la Base de Datos**: Explica cómo `database.py` gestiona la conexión.
 
+### 4. Bitácora
+Link a la historia de ViRix, incluyendo features, problemas y sus soluciones de una manera cronológica. 
+```bash
+https://gamma.app/docs/Bitacora-de-ViRix-u2n5mlebvoplcay
+```
+
 ### 5. Scripts Adicionales
 
 - **profile_script.py**: Herramienta para analizar el rendimiento de la aplicación, incluye cómo usarlo y ejemplos.
