@@ -64,7 +64,8 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 
 1. Navega a la carpeta `frontend`.
 2. Ejecuta `npm install` para instalar las dependencias.
-3. Usa `npm start` para iniciar la aplicación.
+3. Ejecuta `npm install react-phone-input-2` y `npm install leaflet.heat`
+4. Usa `npm start` para iniciar la aplicación.
 
 ### 4. Funcionalidades Clave
 
