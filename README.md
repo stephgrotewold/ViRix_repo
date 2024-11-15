@@ -2,6 +2,11 @@
 
 ViRix es una aplicación web diseñada para proporcionar información actualizada y precisa sobre COVID-19, incluyendo consejos de prevención, noticias y datos estadísticos de países de todo el mundo. La aplicación incluye visualizaciones interactivas de mapas y otra información útil como centros de salud por pais y los servicios que ofrecen para ayudar a los usuarios a mantenerse informados sobre la pandemia.
 
+# Bitácora
+Link a la historia de ViRix, incluyendo features, problemas y sus soluciones de una manera cronológica. 
+```bash
+https://gamma.app/docs/Bitacora-de-ViRix-u2n5mlebvoplcay
+```
 
 # Documentación del Proyecto
 
@@ -64,12 +69,6 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 - **API Endpoints (FastAPI)**: Lista y describe los endpoints principales de FastAPI.
 - **Operaciones CRUD**: Describe las funciones en `crud.py` y `repositories.py`.
 - **Conexión a la Base de Datos**: Explica cómo `database.py` gestiona la conexión.
-
-### 4. Bitácora
-Link a la historia de ViRix, incluyendo features, problemas y sus soluciones de una manera cronológica. 
-```bash
-https://gamma.app/docs/Bitacora-de-ViRix-u2n5mlebvoplcay
-```
 
 ### 5. Scripts Adicionales
 
