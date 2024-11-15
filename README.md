@@ -7,7 +7,15 @@ Link a la historia de ViRix, incluyendo features, problemas y sus soluciones de 
 ```bash
 https://gamma.app/docs/Bitacora-de-ViRix-u2n5mlebvoplcay
 ```
-
+# Load Testing y Profiling
+Un breve resumen de los hallazgos de las pruebas:
+```bash
+https://www.canva.com/design/DAGWf1hZNGU/G5Y2ksN2iji1i7f6YvyTRw/edit?utm_content=DAGWf1hZNGU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+```
+Aqui esta el detalle de las pruebas realizadas de SQL vs MongoDB:
+```bash
+https://docs.google.com/document/d/1VRjic3-vr7f4FP5YZQRdxqbkiIcAC81TeFs9VfrgT7Y/edit?usp=sharing
+```
 # Documentación del Proyecto
 
 ## 1. Introducción
