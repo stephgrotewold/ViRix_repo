@@ -52,14 +52,14 @@ Este proyecto está dividido en dos partes: un frontend desarrollado en **React*
 1. En la raiz del proyecto instala las dependencias con:
    ```bash
    pip install -r requirements.txt
-   
+   ```
 #### Backend
 
 1. Navega a la carpeta `backend`.
 2. Inicia el backend con:
    ```bash
    uvicorn main:app --reload
-
+   ```
 #### Frontend
 
 1. Navega a la carpeta `frontend`.
@@ -91,6 +91,11 @@ El proyecto se integra con las siguientes APIs para obtener datos en tiempo real
 
 1. **News API**: Obtiene los últimos artículos de noticias relacionados con COVID-19.
    - Endpoint: `https://newsapi.org/v2/everything?q=COVID-19`
+  
+
+#### Notas
+En caso se quiere probar la versión solo aplicada con SQL se encuentra en el Commit fc0529e, el cual fue el último update antes de la migración. Seguir los mismos pasos del backend y frontend para poder levantarlo. 
+
 
 
 
