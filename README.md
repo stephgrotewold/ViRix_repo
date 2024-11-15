@@ -95,7 +95,9 @@ El proyecto se integra con las siguientes APIs para obtener datos en tiempo real
 
 #### Notas
 En caso se quiere probar la versión solo aplicada con SQL se encuentra en el Commit fc0529e, el cual fue el último update antes de la migración. Seguir los mismos pasos del backend y frontend para poder levantarlo. 
-
+```bash
+https://github.com/stephgrotewold/ViRix_repo/tree/fc0529e5acc49fadbf8302ec2e9757c88d13a2c3
+```
 
 
 
